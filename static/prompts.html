@@ -5,48 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Prompt Explorer - Ray.so</title>
     <link rel="stylesheet" href="style.css" />
-    <style>
-      .prompts-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 1rem;
-        padding: 1rem;
-        max-width: 1400px;
-        margin: 0 auto;
-      }
-      .prompt-card {
-        background: var(--gray-2);
-        border: 1px solid var(--gray-4);
-        border-radius: 8px;
-        padding: 1.5rem;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-      .prompt-card:hover {
-        border-color: var(--gray-6);
-        background: var(--gray-3);
-      }
-      .prompt-title {
-        font-size: 1.125rem;
-        font-weight: 600;
-        color: var(--gray-12);
-        margin-bottom: 0.5rem;
-      }
-      .prompt-preview {
-        font-size: 0.875rem;
-        color: var(--gray-11);
-        line-height: 1.5;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-      .loading {
-        text-align: center;
-        padding: 3rem;
-        color: var(--gray-11);
-      }
-    </style>
   </head>
   <body>
     <nav class="navigation">
