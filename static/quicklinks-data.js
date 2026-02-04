@@ -1,8 +1,180 @@
+// Comprehensive quicklinks data extracted from ray.so - 100+ quicklinks
 const quicklinksData = [
+  // File System
   { name: "Open Downloads", description: "Opens the Downloads folder in Finder", link: "~/Downloads" },
   { name: "Open Documents", description: "Opens the Documents folder in Finder", link: "~/Documents" },
   { name: "Open Desktop", description: "Opens the Desktop folder in Finder", link: "~/Desktop" },
-  { name: "GitHub", description: "Open GitHub", link: "https://github.com" },
-  { name: "Google", description: "Search on Google", link: "https://google.com" },
-  { name: "YouTube", description: "Open YouTube", link: "https://youtube.com" },
+  { name: "Open Home", description: "Opens your Home folder Finder", link: "~/" },
+  { name: "Open Root", description: "Opens the Root folder of your drive in Finder", link: "/" },
+
+  // Development
+  {
+    name: "Search Raycast API Docs",
+    description: "Search the Raycast API documentation",
+    link: "https://developers.raycast.com/",
+  },
+  { name: "Search GitHub", description: "Search for repositories on GitHub", link: "https://github.com/search" },
+  {
+    name: "GitHub Pull Requests",
+    description: "View your created GitHub Pull Requests",
+    link: "https://github.com/pulls",
+  },
+  {
+    name: "GitHub Review Requests",
+    description: "View PRs where your review is requested",
+    link: "https://github.com/pulls/review-requested",
+  },
+  {
+    name: "Search Hugging Face",
+    description: "Search for models, datasets, and more",
+    link: "https://huggingface.co/search/full-text",
+  },
+  { name: "Search Sentry Issues", description: "Search for issues in Sentry", link: "https://sentry.io/issues/" },
+  { name: "Search NPM", description: "Search for npm packages", link: "https://www.npmjs.com/search" },
+  { name: "Search PyPI", description: "Search for Python packages", link: "https://pypi.org/search/" },
+  { name: "Search Packagist", description: "Search for PHP packages", link: "https://packagist.org/" },
+  {
+    name: "Search Stack Overflow",
+    description: "Search Stack Overflow questions",
+    link: "https://stackoverflow.com/search",
+  },
+  {
+    name: "Search MDN Docs",
+    description: "Search Mozilla Developer Network docs",
+    link: "https://developer.mozilla.org/en-US/search",
+  },
+  { name: "Can I Use", description: "Check browser support for web features", link: "https://caniuse.com/" },
+  { name: "Search Dev Docs", description: "Search DevDocs.io", link: "https://devdocs.io" },
+  {
+    name: "Radix Primitives Docs",
+    description: "Radix UI component documentation",
+    link: "https://radix-ui.com/primitives/docs",
+  },
+  { name: "Next.js Docs", description: "Next.js framework documentation", link: "https://nextjs.org/docs" },
+  { name: "React Docs", description: "React library documentation", link: "https://react.dev/" },
+  { name: "Tailwind CSS Docs", description: "Tailwind CSS documentation", link: "https://tailwindcss.com/docs" },
+  { name: "Shadcn UI Docs", description: "Shadcn UI component library", link: "https://ui.shadcn.com/docs" },
+  {
+    name: "TypeScript Docs",
+    description: "TypeScript language documentation",
+    link: "https://www.typescriptlang.org/docs/",
+  },
+  { name: "Vite Docs", description: "Vite build tool documentation", link: "https://vitejs.dev/guide/" },
+  { name: "Prisma Docs", description: "Prisma ORM documentation", link: "https://www.prisma.io/docs/orm" },
+  { name: "Vercel Docs", description: "Vercel platform documentation", link: "https://vercel.com/docs" },
+  { name: "Supabase Docs", description: "Supabase backend documentation", link: "https://supabase.io/docs" },
+  { name: "v0 by Vercel", description: "AI-powered UI generation", link: "https://v0.dev" },
+  { name: "Vue.js Docs", description: "Vue.js framework documentation", link: "https://vuejs.org/guide/" },
+  { name: "Svelte Docs", description: "Svelte framework documentation", link: "https://svelte.dev/docs" },
+  { name: "Angular Docs", description: "Angular framework documentation", link: "https://angular.io/docs" },
+
+  // Design
+  { name: "Search Mobbin", description: "Browse mobile and web design patterns", link: "https://mobbin.com/search" },
+  { name: "Search Unsplash", description: "Find free high-resolution photos", link: "https://unsplash.com/s/photos/" },
+  { name: "Search Layers", description: "Browse design resources", link: "https://layers.to/search" },
+  { name: "Search Dribbble", description: "Explore design inspiration", link: "https://dribbble.com/search/" },
+  { name: "Search Google Fonts", description: "Browse Google Fonts library", link: "https://fonts.google.com/" },
+  { name: "Search Noun Project", description: "Find icons and symbols", link: "https://thenounproject.com/search/" },
+  { name: "Search Icones", description: "Search icon sets", link: "https://icones.js.org/collection/all" },
+  { name: "Search Freepik", description: "Find design resources", link: "https://www.freepik.com/search" },
+  {
+    name: "Search Figma Community",
+    description: "Browse Figma files and plugins",
+    link: "https://www.figma.com/community/search",
+  },
+  {
+    name: "Search Behance",
+    description: "Explore creative portfolios",
+    link: "https://www.behance.net/search/projects",
+  },
+  { name: "Pexels", description: "Free stock photos", link: "https://www.pexels.com/" },
+  { name: "Pixabay", description: "Free images and videos", link: "https://pixabay.com/" },
+
+  // Shopping
+  { name: "Search Amazon", description: "Shop on Amazon", link: "https://www.amazon.com/s" },
+  { name: "Search eBay", description: "Find items on eBay", link: "https://www.ebay.com/sch/i.html" },
+  { name: "Search Etsy", description: "Browse handmade goods", link: "https://www.etsy.com/search" },
+  { name: "Search AliExpress", description: "Shop on AliExpress", link: "https://www.aliexpress.com/wholesale" },
+  {
+    name: "Search B&H Photo",
+    description: "Shop for cameras and electronics",
+    link: "https://www.bhphotovideo.com/c/search",
+  },
+  { name: "Search Newegg", description: "Shop for computer hardware", link: "https://www.newegg.com/p/pl" },
+
+  // Entertainment
+  { name: "Search Spotify", description: "Find music on Spotify", link: "https://open.spotify.com/search/" },
+  { name: "Search Apple Music", description: "Find music on Apple Music", link: "https://music.apple.com/us/search" },
+  { name: "Search YouTube", description: "Search YouTube videos", link: "https://www.youtube.com/results" },
+  { name: "Search IMDb", description: "Find movies and TV shows", link: "https://www.imdb.com/find" },
+  { name: "Search Netflix", description: "Browse Netflix content", link: "https://www.netflix.com/search" },
+  { name: "Search Letterboxd", description: "Track and rate films", link: "https://letterboxd.com/search/" },
+  {
+    name: "Find Where to Stream",
+    description: "JustWatch streaming search",
+    link: "https://www.justwatch.com/us/search",
+  },
+  { name: "Search Genius", description: "Find song lyrics", link: "https://genius.com/search" },
+  { name: "Who Sampled", description: "Find song samples", link: "https://www.whosampled.com/search/" },
+  { name: "Search Discogs", description: "Music database and marketplace", link: "https://www.discogs.com/search/" },
+  { name: "Prime Video", description: "Amazon Prime Video", link: "https://www.primevideo.com/search" },
+
+  // Socials
+  { name: "Search Tweets", description: "Search Twitter/X", link: "https://x.com/search" },
+  {
+    name: "Search LinkedIn",
+    description: "Search LinkedIn profiles",
+    link: "https://www.linkedin.com/search/results/all/",
+  },
+  { name: "Search Pinterest", description: "Find pins on Pinterest", link: "https://pinterest.com/search/pins/" },
+  { name: "Search Threads", description: "Search Threads posts", link: "https://www.threads.net/search/" },
+  { name: "Search TikTok", description: "Search TikTok videos", link: "https://www.tiktok.com/search" },
+  { name: "Search Twitch", description: "Find streams on Twitch", link: "https://www.twitch.tv/search" },
+  { name: "Search Reddit", description: "Search Reddit posts", link: "https://www.reddit.com/search/" },
+  { name: "Search Giphy", description: "Find GIFs on Giphy", link: "https://giphy.com/" },
+  { name: "Search Bluesky", description: "Search Bluesky posts", link: "https://bsky.app/search" },
+  { name: "Search GitHub Gist", description: "Find code snippets", link: "https://gist.github.com/search" },
+  { name: "Instagram", description: "Open Instagram", link: "https://www.instagram.com/" },
+  { name: "Facebook", description: "Open Facebook", link: "https://www.facebook.com/" },
+
+  // Search Engines
+  { name: "Google Search", description: "Search with Google", link: "https://www.google.com/search" },
+  { name: "DuckDuckGo", description: "Private search engine", link: "https://duckduckgo.com/" },
+  { name: "Bing Search", description: "Search with Bing", link: "https://www.bing.com/search" },
+  { name: "Brave Search", description: "Private search with Brave", link: "https://search.brave.com/search" },
+  { name: "Perplexity", description: "AI-powered search", link: "https://www.perplexity.ai/" },
+  { name: "You.com", description: "AI-powered search engine", link: "https://you.com/" },
+  { name: "Kagi", description: "Premium search engine", link: "https://kagi.com/" },
+
+  // Communication
+  { name: "Gmail", description: "Open Gmail", link: "https://mail.google.com/" },
+  { name: "Outlook", description: "Open Outlook", link: "https://outlook.live.com/" },
+  { name: "Slack", description: "Open Slack workspace", link: "https://slack.com/" },
+  { name: "Discord", description: "Open Discord", link: "https://discord.com/app" },
+  { name: "Zoom", description: "Start or join a Zoom meeting", link: "https://zoom.us/" },
+  { name: "Microsoft Teams", description: "Open Microsoft Teams", link: "https://teams.microsoft.com/" },
+  { name: "WhatsApp Web", description: "Open WhatsApp Web", link: "https://web.whatsapp.com/" },
+  { name: "Telegram Web", description: "Open Telegram Web", link: "https://web.telegram.org/" },
+
+  // Science
+  { name: "Google Scholar", description: "Search academic papers", link: "https://scholar.google.com/" },
+  { name: "PubMed", description: "Search medical literature", link: "https://pubmed.ncbi.nlm.nih.gov/" },
+  { name: "arXiv", description: "Browse scientific preprints", link: "https://arxiv.org/" },
+  { name: "Sci-Hub", description: "Access research papers", link: "https://sci-hub.se/" },
+  { name: "JSTOR", description: "Academic journal archive", link: "https://www.jstor.org/" },
+  { name: "ResearchGate", description: "Scientific research network", link: "https://www.researchgate.net/" },
+
+  // Misc
+  { name: "Wikipedia", description: "Search Wikipedia", link: "https://en.wikipedia.org/wiki/" },
+  { name: "WolframAlpha", description: "Computational knowledge engine", link: "https://www.wolframalpha.com/" },
+  { name: "Internet Archive", description: "Wayback Machine", link: "https://archive.org/web/" },
+  { name: "Product Hunt", description: "Discover new products", link: "https://www.producthunt.com/" },
+  { name: "Hacker News", description: "Tech news and discussion", link: "https://news.ycombinator.com/" },
+  { name: "DEV Community", description: "Developer community", link: "https://dev.to/" },
+  { name: "Medium", description: "Read and write stories", link: "https://medium.com/" },
+  { name: "Notion", description: "Open Notion workspace", link: "https://www.notion.so/" },
+  { name: "Trello", description: "Open Trello boards", link: "https://trello.com/" },
+  { name: "Asana", description: "Project management", link: "https://app.asana.com/" },
+  { name: "Jira", description: "Issue and project tracking", link: "https://www.atlassian.com/software/jira" },
+  { name: "Linear", description: "Issue tracking for software teams", link: "https://linear.app/" },
 ];
