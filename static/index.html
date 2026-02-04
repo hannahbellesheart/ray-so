@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ray.so - Create Beautiful Code Images</title>
+    <meta
+      name="description"
+      content="Turn your code into beautiful images. Choose from a range of syntax colors, hide or show the background, and toggle between a dark and light window."
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navigation">
+      <div class="nav-content">
+        <div class="nav-left">
+          <div class="nav-dropdown">
+            <button class="nav-trigger" id="navTrigger">
+              <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <rect x="4" y="5" width="16" height="3" rx="1.5" fill="currentColor" />
+                <rect x="4" y="10.5" width="16" height="3" rx="1.5" fill="currentColor" />
+                <rect x="4" y="16" width="8" height="3" rx="1.5" fill="currentColor" />
+              </svg>
+              <span>Code Images</span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+              <a href="index.html" class="nav-menu-item active">
+                <div class="nav-menu-icon">🖼️</div>
+                <div class="nav-menu-text">
+                  <span class="nav-menu-title">Code Images</span>
+                  <span class="nav-menu-desc">Create beautiful images of your code</span>
+                </div>
+              </a>
+              <a href="icon.html" class="nav-menu-item">
+                <div class="nav-menu-icon">🎨</div>
+                <div class="nav-menu-text">
+                  <span class="nav-menu-title">Icon Maker</span>
+                  <span class="nav-menu-desc">Create beautiful icons</span>
+                </div>
+              </a>
+              <a href="prompts.html" class="nav-menu-item">
+                <div class="nav-menu-icon">💬</div>
+                <div class="nav-menu-text">
+                  <span class="nav-menu-title">Prompts</span>
+                  <span class="nav-menu-desc">Explore AI Prompts for Raycast</span>
+                </div>
+              </a>
+              <a href="presets.html" class="nav-menu-item">
+                <div class="nav-menu-icon">⚙️</div>
+                <div class="nav-menu-text">
+                  <span class="nav-menu-title">Presets</span>
+                  <span class="nav-menu-desc">Explore AI Presets for Raycast</span>
+                </div>
+              </a>
+              <a href="quicklinks.html" class="nav-menu-item">
+                <div class="nav-menu-icon">🔗</div>
+                <div class="nav-menu-text">
+                  <span class="nav-menu-title">Quicklinks</span>
+                  <span class="nav-menu-desc">Explore Raycast Quicklinks</span>
+                </div>
+              </a>
+              <a href="snippets.html" class="nav-menu-item">
+                <div class="nav-menu-icon">📝</div>
+                <div class="nav-menu-text">
+                  <span class="nav-menu-title">Snippets</span>
+                  <span class="nav-menu-desc">Browse and import Raycast Snippets</span>
+                </div>
+              </a>
+              <a href="themes.html" class="nav-menu-item">
+                <div class="nav-menu-icon">🎭</div>
+                <div class="nav-menu-text">
+                  <span class="nav-menu-title">Themes</span>
+                  <span class="nav-menu-desc">Browse and import Raycast Themes</span>
+                </div>
+              </a>
+            </div>
+          </div>
+          <span class="nav-by">by</span>
+          <a href="https://raycast.com" target="_blank" class="nav-raycast">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M10 0L12.2451 7.75492L20 10L12.2451 12.2451L10 20L7.75492 12.2451L0 10L7.75492 7.75492L10 0Z"
+                fill="#FF6363"
+              />
+            </svg>
+            <span>Raycast</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="main-container">
+      <div class="app">
+        <div class="content-area">
+          <!-- Code Preview Frame -->
+          <div class="frame-container">
+            <div class="outer-frame">
+              <div id="codeFrame" class="code-frame">
+                <div class="transparent-pattern"></div>
+                <div class="window">
+                  <div class="window-header">
+                    <div class="window-buttons">
+                      <span class="window-button red"></span>
+                      <span class="window-button yellow"></span>
+                      <span class="window-button green"></span>
+                    </div>
+                    <div class="window-title" id="fileName">index.js</div>
+                  </div>
+                  <div class="editor-container">
+                    <div class="line-numbers" id="lineNumbers"></div>
+                    <textarea
+                      id="codeEditor"
+                      class="code-editor"
+                      spellcheck="false"
+                      placeholder="Type or paste your code here..."
+                    >
+// Welcome to ray.so!
+function createBeautifulCode() {
+  const message = "Hello, World!";
+  console.log(message);
+  return message;
+}
+
+createBeautifulCode();</textarea
+                    >
+                    <pre id="highlightedCode" class="highlighted-code"><code class="language-javascript"></code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls Panel at Bottom -->
+        <div class="controls">
+          <div class="control-group">
+            <label class="control-label">Theme</label>
+            <select id="themeSelect" class="control-select">
+              <option value="candy">Candy</option>
+              <option value="breeze" selected>Breeze</option>
+              <option value="midnight">Midnight</option>
+              <option value="sunset">Sunset</option>
+              <option value="raindrop">Raindrop</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Language</label>
+            <select id="languageSelect" class="control-select">
+              <option value="javascript" selected>JavaScript</option>
+              <option value="typescript">TypeScript</option>
+              <option value="python">Python</option>
+              <option value="html">HTML</option>
+              <option value="css">CSS</option>
+              <option value="java">Java</option>
+              <option value="csharp">C#</option>
+              <option value="cpp">C++</option>
+              <option value="go">Go</option>
+              <option value="rust">Rust</option>
+              <option value="php">PHP</option>
+              <option value="ruby">Ruby</option>
+              <option value="swift">Swift</option>
+              <option value="kotlin">Kotlin</option>
+              <option value="json">JSON</option>
+              <option value="xml">XML</option>
+              <option value="sql">SQL</option>
+              <option value="bash">Bash</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Background</label>
+            <div class="control-toggle">
+              <input type="checkbox" id="backgroundToggle" checked />
+              <label for="backgroundToggle" class="toggle-label">Show Background</label>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Dark Mode</label>
+            <div class="control-toggle">
+              <input type="checkbox" id="darkModeToggle" checked />
+              <label for="darkModeToggle" class="toggle-label">Enable Dark Mode</label>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Line Numbers</label>
+            <div class="control-toggle">
+              <input type="checkbox" id="lineNumbersToggle" checked />
+              <label for="lineNumbersToggle" class="toggle-label">Show Line Numbers</label>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Padding</label>
+            <select id="paddingSelect" class="control-select">
+              <option value="16">Small</option>
+              <option value="32" selected>Medium</option>
+              <option value="64">Large</option>
+              <option value="128">Extra Large</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">File Name</label>
+            <input type="text" id="fileNameInput" class="control-input" value="index.js" />
+          </div>
+
+          <div class="control-buttons">
+            <button id="exportBtn" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M14 10V12.6667C14 13.0203 13.8595 13.3594 13.6095 13.6095C13.3594 13.8595 13.0203 14 12.6667 14H3.33333C2.97971 14 2.64057 13.8595 2.39052 13.6095C2.14048 13.3594 2 13.0203 2 12.6667V10"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M4.66666 6.66667L8 10L11.3333 6.66667"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M8 10V2"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              Export as PNG
+            </button>
+            <button id="copyBtn" class="btn btn-secondary">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M13.3333 6H7.33333C6.59695 6 6 6.59695 6 7.33333V13.3333C6 14.0697 6.59695 14.6667 7.33333 14.6667H13.3333C14.0697 14.6667 14.6667 14.0697 14.6667 13.3333V7.33333C14.6667 6.59695 14.0697 6 13.3333 6Z"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M3.33333 10H2.66667C2.31304 10 1.97391 9.85952 1.72386 9.60948C1.47381 9.35943 1.33333 9.02029 1.33333 8.66667V2.66667C1.33333 2.31304 1.47381 1.97391 1.72386 1.72386C1.97391 1.47381 2.31304 1.33333 2.66667 1.33333H8.66667C9.02029 1.33333 9.35943 1.47381 9.60948 1.72386C9.85952 1.97391 10 2.31304 10 2.66667V3.33333"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              Copy Code
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

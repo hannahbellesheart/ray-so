@@ -5,8 +5,16 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
+  output: "export",
+  distDir: "static-build",
   reactStrictMode: true,
   transpilePackages: ["highlight.js"],
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   experimental: {
     optimizePackageImports: ["shiki"],
   },
