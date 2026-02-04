@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Icon Maker - Ray.so</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .icon-app {
+        display: flex;
+        width: 100%;
+        min-height: calc(100vh - 50px);
+        align-items: center;
+        justify-content: center;
+        padding: 32px;
+        gap: 48px;
+      }
+
+      @media (max-width: 968px) {
+        .icon-app {
+          flex-direction: column;
+          gap: 32px;
+        }
+      }
+
+      .icon-preview {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 32px;
+      }
+
+      .icon-canvas {
+        display: flex;
+        width: 256px;
+        height: 256px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 64px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        font-size: 128px;
+        transition: all 300ms ease;
+      }
+
+      .icon-controls {
+        display: flex;
+        min-width: 320px;
+        max-width: 400px;
+        flex-direction: column;
+        padding: 24px;
+        border: 1px solid var(--gray-5);
+        border-radius: 12px;
+        background: var(--gray-2);
+        gap: 24px;
+      }
+
+      .control-section {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .control-section-title {
+        color: var(--gray-12);
+        font-size: 15px;
+        font-weight: 600;
+      }
+
+      .gradient-presets {
+        display: grid;
+        gap: 8px;
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .gradient-preset {
+        height: 48px;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 200ms ease;
+      }
+
+      .gradient-preset:hover {
+        border-color: var(--gray-6);
+        transform: scale(1.05);
+      }
+
+      .gradient-preset.active {
+        border-color: var(--brand);
+        box-shadow: 0 0 0 2px var(--brand);
+      }
+
+      .emoji-input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--gray-5);
+        border-radius: 8px;
+        background: var(--gray-3);
+        color: var(--gray-12);
+        font-size: 32px;
+        text-align: center;
+      }
+
+      .slider-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .slider-label {
+        display: flex;
+        justify-content: space-between;
+        color: var(--gray-11);
+        font-size: 13px;
+      }
+
+      input[type="range"] {
+        width: 100%;
+        height: 6px;
+        border-radius: 3px;
+        background: var(--gray-4);
+        outline: none;
+        -webkit-appearance: none;
+      }
+
+      input[type="range"]::-webkit-slider-thumb {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--brand);
+        cursor: pointer;
+        -webkit-appearance: none;
+      }
+
+      input[type="range"]::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+        border: none;
+        border-radius: 50%;
+        background: var(--brand);
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navigation">
+      <div class="nav-content">
+        <div class="nav-left">
+          <div class="nav-dropdown">
+            <button class="nav-trigger" id="navTrigger">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+              </svg>
+              <span>Icon Maker</span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+              <a href="index.html" class="nav-menu-item">
+                <div class="nav-menu-icon">📸</div>
+                <div class="nav-menu-text">
+                  <div class="nav-menu-title">Code Screenshot</div>
+                  <div class="nav-menu-desc">Create beautiful code screenshots</div>
+                </div>
+              </a>
+              <a href="icon.html" class="nav-menu-item active">
+                <div class="nav-menu-icon">🎨</div>
+                <div class="nav-menu-text">
+                  <div class="nav-menu-title">Icon Maker</div>
+                  <div class="nav-menu-desc">Generate gradient icons</div>
+                </div>
+              </a>
+              <a href="prompts.html" class="nav-menu-item">
+                <div class="nav-menu-icon">💬</div>
+                <div class="nav-menu-text">
+                  <div class="nav-menu-title">AI Prompts</div>
+                  <div class="nav-menu-desc">Browse AI prompt templates</div>
+                </div>
+              </a>
+              <a href="presets.html" class="nav-menu-item">
+                <div class="nav-menu-icon">⚙️</div>
+                <div class="nav-menu-text">
+                  <div class="nav-menu-title">AI Presets</div>
+                  <div class="nav-menu-desc">AI configuration presets</div>
+                </div>
+              </a>
+              <a href="quicklinks.html" class="nav-menu-item">
+                <div class="nav-menu-icon">🔗</div>
+                <div class="nav-menu-text">
+                  <div class="nav-menu-title">Quicklinks</div>
+                  <div class="nav-menu-desc">Quick access links</div>
+                </div>
+              </a>
+              <a href="snippets.html" class="nav-menu-item">
+                <div class="nav-menu-icon">✂️</div>
+                <div class="nav-menu-text">
+                  <div class="nav-menu-title">Snippets</div>
+                  <div class="nav-menu-desc">Text snippets & symbols</div>
+                </div>
+              </a>
+              <a href="themes.html" class="nav-menu-item">
+                <div class="nav-menu-icon">🎨</div>
+                <div class="nav-menu-text">
+                  <div class="nav-menu-title">Themes</div>
+                  <div class="nav-menu-desc">Color themes</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="nav-by">by <a href="https://raycast.com" class="nav-raycast" target="_blank">Raycast</a></div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+      <div class="icon-app">
+        <!-- Preview -->
+        <div class="icon-preview">
+          <div class="icon-canvas" id="iconCanvas">
+            <span id="iconEmoji">🎨</span>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="icon-controls">
+          <div class="control-section">
+            <label class="control-section-title">Emoji</label>
+            <input type="text" id="emojiInput" class="emoji-input" value="🎨" maxlength="2" />
+          </div>
+
+          <div class="control-section">
+            <label class="control-section-title">Gradient Preset</label>
+            <div class="gradient-presets">
+              <div
+                class="gradient-preset active"
+                data-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+              ></div>
+              <div class="gradient-preset" data-gradient="linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)"></div>
+              <div class="gradient-preset" data-gradient="linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)"></div>
+              <div class="gradient-preset" data-gradient="linear-gradient(135deg, #f97316 0%, #fbbf24 100%)"></div>
+              <div class="gradient-preset" data-gradient="linear-gradient(135deg, #10b981 0%, #059669 100%)"></div>
+              <div class="gradient-preset" data-gradient="linear-gradient(135deg, #ef4444 0%, #dc2626 100%)"></div>
+            </div>
+          </div>
+
+          <div class="control-section">
+            <div class="slider-container">
+              <div class="slider-label">
+                <span>Border Radius</span>
+                <span id="radiusValue">64px</span>
+              </div>
+              <input type="range" id="radiusSlider" min="0" max="128" value="64" />
+            </div>
+          </div>
+
+          <div class="control-section">
+            <label class="control-section-title">Size</label>
+            <select id="sizeSelect">
+              <option value="256">256px</option>
+              <option value="512">512px</option>
+              <option value="1024">1024px</option>
+            </select>
+          </div>
+
+          <button class="primary" id="exportBtn">
+            <span>💾</span>
+            <span>Export PNG</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="nav.js"></script>
+    <script>
+      // Icon maker elements
+      const iconCanvas = document.getElementById("iconCanvas");
+      const iconEmoji = document.getElementById("iconEmoji");
+      const emojiInput = document.getElementById("emojiInput");
+      const radiusSlider = document.getElementById("radiusSlider");
+      const radiusValue = document.getElementById("radiusValue");
+      const sizeSelect = document.getElementById("sizeSelect");
+      const exportBtn = document.getElementById("exportBtn");
+
+      // Gradient presets
+      const gradientPresets = document.querySelectorAll(".gradient-preset");
+      gradientPresets.forEach((preset, index) => {
+        const gradients = [
+          "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          "linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)",
+          "linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)",
+          "linear-gradient(135deg, #f97316 0%, #fbbf24 100%)",
+          "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+          "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
+        ];
+
+        preset.style.background = gradients[index];
+
+        preset.addEventListener("click", () => {
+          gradientPresets.forEach((p) => p.classList.remove("active"));
+          preset.classList.add("active");
+          iconCanvas.style.background = gradients[index];
+        });
+      });
+
+      // Emoji input
+      emojiInput.addEventListener("input", (e) => {
+        iconEmoji.textContent = e.target.value;
+      });
+
+      // Border radius slider
+      radiusSlider.addEventListener("input", (e) => {
+        const value = e.target.value;
+        radiusValue.textContent = `${value}px`;
+        iconCanvas.style.borderRadius = `${value}px`;
+      });
+
+      // Export to PNG
+      exportBtn.addEventListener("click", async () => {
+        exportBtn.disabled = true;
+        exportBtn.innerHTML = "<span>⏳</span><span>Exporting...</span>";
+
+        try {
+          const size = parseInt(sizeSelect.value);
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+
+          canvas.width = size;
+          canvas.height = size;
+
+          // Get gradient
+          const activeGradient = document.querySelector(".gradient-preset.active");
+          const gradientStyle = window.getComputedStyle(activeGradient).background;
+
+          // Draw gradient background
+          const gradient = ctx.createLinearGradient(0, 0, size, size);
+          gradient.addColorStop(0, "#667eea");
+          gradient.addColorStop(1, "#764ba2");
+
+          const radius = parseInt(radiusSlider.value) * (size / 256);
+
+          // Draw rounded rectangle
+          ctx.beginPath();
+          ctx.roundRect(0, 0, size, size, radius);
+          ctx.fillStyle = gradient;
+          ctx.fill();
+
+          // Draw emoji
+          ctx.font = `${size / 2}px Arial`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(iconEmoji.textContent, size / 2, size / 2);
+
+          // Download
+          const link = document.createElement("a");
+          link.download = "icon.png";
+          link.href = canvas.toDataURL();
+          link.click();
+        } catch (error) {
+          console.error("Export failed:", error);
+        } finally {
+          exportBtn.disabled = false;
+          exportBtn.innerHTML = "<span>💾</span><span>Export PNG</span>";
+        }
+      });
+    </script>
+  </body>
+</html>

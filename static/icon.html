@@ -5,72 +5,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Icon Maker - Ray.so</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-      .icon-app {
+      .icon-page {
         display: flex;
         width: 100%;
         min-height: calc(100vh - 50px);
-        align-items: center;
-        justify-content: center;
         padding: 32px;
         gap: 48px;
       }
 
       @media (max-width: 968px) {
-        .icon-app {
+        .icon-page {
           flex-direction: column;
           gap: 32px;
         }
       }
 
-      .icon-preview {
+      .icon-preview-section {
+        flex: 1;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 32px;
       }
 
-      .icon-canvas {
-        display: flex;
-        width: 256px;
-        height: 256px;
-        align-items: center;
-        justify-content: center;
-        border-radius: 64px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        font-size: 128px;
-        transition: all 300ms ease;
+      .icon-canvas-wrapper {
+        position: relative;
       }
 
-      .icon-controls {
+      .icon-canvas {
+        width: 256px;
+        height: 256px;
         display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 128px;
+        line-height: 1;
+        transition: all 300ms ease;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        user-select: none;
+      }
+
+      .icon-controls-section {
         min-width: 320px;
         max-width: 400px;
+        display: flex;
         flex-direction: column;
-        padding: 24px;
+        gap: 16px;
+      }
+
+      .control-panel {
         border: 1px solid var(--gray-5);
         border-radius: 12px;
         background: var(--gray-2);
-        gap: 24px;
+        overflow: hidden;
       }
 
-      .control-section {
+      .control-panel-header {
         display: flex;
-        flex-direction: column;
-        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px;
+        background: var(--gray-3);
+        border-bottom: 1px solid var(--gray-5);
+        cursor: pointer;
+        user-select: none;
       }
 
-      .control-section-title {
+      .control-panel-title {
         color: var(--gray-12);
-        font-size: 15px;
+        font-size: 14px;
         font-weight: 600;
       }
 
-      .gradient-presets {
-        display: grid;
+      .control-panel-content {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .control-panel-content.collapsed {
+        display: none;
+      }
+
+      .form-row {
+        display: flex;
+        flex-direction: column;
         gap: 8px;
-        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .form-row label {
+        color: var(--gray-11);
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .form-row input[type="text"],
+      .form-row input[type="number"],
+      .form-row select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid var(--gray-5);
+        border-radius: 8px;
+        background: var(--gray-3);
+        color: var(--gray-12);
+        font-size: 14px;
+        font-family: inherit;
+      }
+
+      .form-row input[type="range"] {
+        width: 100%;
+      }
+
+      .gradient-presets-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+        gap: 8px;
       }
 
       .gradient-preset {
@@ -91,55 +143,115 @@
         box-shadow: 0 0 0 2px var(--brand);
       }
 
-      .emoji-input {
-        width: 100%;
-        padding: 12px;
+      .slider-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .slider-row label {
+        color: var(--gray-11);
+        font-size: 13px;
+        font-weight: 500;
+        flex-shrink: 0;
+      }
+
+      .slider-row input[type="range"] {
+        flex: 1;
+      }
+
+      .slider-row .value {
+        color: var(--gray-11);
+        font-size: 13px;
+        font-weight: 500;
+        min-width: 45px;
+        text-align: right;
+      }
+
+      .color-input-wrapper {
+        position: relative;
+        display: flex;
+        gap: 8px;
+      }
+
+      .color-swatch {
+        width: 42px;
+        height: 42px;
+        border: 1px solid var(--gray-5);
+        border-radius: 8px;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+
+      .color-text-input {
+        flex: 1;
+        padding: 10px 12px;
         border: 1px solid var(--gray-5);
         border-radius: 8px;
         background: var(--gray-3);
         color: var(--gray-12);
-        font-size: 32px;
-        text-align: center;
+        font-size: 14px;
+        font-family: monospace;
       }
 
-      .slider-container {
+      .export-buttons {
         display: flex;
-        flex-direction: column;
         gap: 8px;
       }
 
-      .slider-label {
+      .export-buttons button {
+        flex: 1;
+      }
+
+      .fill-type-tabs {
         display: flex;
-        justify-content: space-between;
+        gap: 8px;
+        padding: 4px;
+        background: var(--gray-3);
+        border-radius: 8px;
+      }
+
+      .fill-type-tab {
+        flex: 1;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 6px;
+        background: transparent;
         color: var(--gray-11);
         font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 200ms ease;
       }
 
-      input[type="range"] {
-        width: 100%;
-        height: 6px;
-        border-radius: 3px;
+      .fill-type-tab:hover {
         background: var(--gray-4);
-        outline: none;
-        -webkit-appearance: none;
+        color: var(--gray-12);
       }
 
-      input[type="range"]::-webkit-slider-thumb {
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
+      .fill-type-tab.active {
         background: var(--brand);
-        cursor: pointer;
-        -webkit-appearance: none;
+        color: white;
       }
 
-      input[type="range"]::-moz-range-thumb {
-        width: 18px;
-        height: 18px;
-        border: none;
-        border-radius: 50%;
-        background: var(--brand);
-        cursor: pointer;
+      .emoji-input {
+        font-size: 32px;
+        text-align: center;
+        padding: 16px;
+      }
+
+      .angle-input-group {
+        display: flex;
+        gap: 8px;
+      }
+
+      .angle-input-group input[type="range"] {
+        flex: 1;
+      }
+
+      .angle-input-group input[type="number"] {
+        width: 80px;
       }
     </style>
   </head>
@@ -150,41 +262,62 @@
         <div class="nav-left">
           <div class="nav-dropdown">
             <button class="nav-trigger" id="navTrigger">
-              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="7" height="7" rx="1"></rect>
-                <rect x="14" y="3" width="7" height="7" rx="1"></rect>
-                <rect x="14" y="14" width="7" height="7" rx="1"></rect>
-                <rect x="3" y="14" width="7" height="7" rx="1"></rect>
-              </svg>
+              <div class="nav-trigger-icon">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M8 3C8.55228 3 9 2.55228 9 2C9 1.44772 8.55228 1 8 1C7.44772 1 7 1.44772 7 2C7 2.55228 7.44772 3 8 3Z"
+                    fill="currentColor"
+                  />
+                  <path
+                    d="M8 9C8.55228 9 9 8.55228 9 8C9 7.44772 8.55228 7 8 7C7.44772 7 7 7.44772 7 8C7 8.55228 7.44772 9 8 9Z"
+                    fill="currentColor"
+                  />
+                  <path
+                    d="M9 14C9 14.5523 8.55228 15 8 15C7.44772 15 7 14.5523 7 14C7 13.4477 7.44772 13 8 13C8.55228 13 9 13.4477 9 14Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </div>
               <span>Icon Maker</span>
+              <div class="nav-trigger-chevron">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M4 6L8 10L12 6"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
             </button>
             <div class="nav-menu" id="navMenu">
               <a href="index.html" class="nav-menu-item">
-                <div class="nav-menu-icon">📸</div>
+                <div class="nav-menu-icon">📷</div>
                 <div class="nav-menu-text">
-                  <div class="nav-menu-title">Code Screenshot</div>
-                  <div class="nav-menu-desc">Create beautiful code screenshots</div>
+                  <div class="nav-menu-title">Code Images</div>
+                  <div class="nav-menu-desc">Turn code into images</div>
                 </div>
               </a>
               <a href="icon.html" class="nav-menu-item active">
                 <div class="nav-menu-icon">🎨</div>
                 <div class="nav-menu-text">
                   <div class="nav-menu-title">Icon Maker</div>
-                  <div class="nav-menu-desc">Generate gradient icons</div>
+                  <div class="nav-menu-desc">Create beautiful icons</div>
                 </div>
               </a>
               <a href="prompts.html" class="nav-menu-item">
-                <div class="nav-menu-icon">💬</div>
+                <div class="nav-menu-icon">🤖</div>
                 <div class="nav-menu-text">
-                  <div class="nav-menu-title">AI Prompts</div>
-                  <div class="nav-menu-desc">Browse AI prompt templates</div>
+                  <div class="nav-menu-title">Prompts</div>
+                  <div class="nav-menu-desc">AI prompts</div>
                 </div>
               </a>
               <a href="presets.html" class="nav-menu-item">
-                <div class="nav-menu-icon">⚙️</div>
+                <div class="nav-menu-icon">⚡</div>
                 <div class="nav-menu-text">
-                  <div class="nav-menu-title">AI Presets</div>
-                  <div class="nav-menu-desc">AI configuration presets</div>
+                  <div class="nav-menu-title">Presets</div>
+                  <div class="nav-menu-desc">AI presets</div>
                 </div>
               </a>
               <a href="quicklinks.html" class="nav-menu-item">
@@ -195,7 +328,7 @@
                 </div>
               </a>
               <a href="snippets.html" class="nav-menu-item">
-                <div class="nav-menu-icon">✂️</div>
+                <div class="nav-menu-icon">📝</div>
                 <div class="nav-menu-text">
                   <div class="nav-menu-title">Snippets</div>
                   <div class="nav-menu-desc">Text snippets & symbols</div>
@@ -217,155 +350,491 @@
 
     <!-- Main Content -->
     <div class="main-container">
-      <div class="icon-app">
+      <div class="icon-page">
         <!-- Preview -->
-        <div class="icon-preview">
-          <div class="icon-canvas" id="iconCanvas">
-            <span id="iconEmoji">🎨</span>
+        <div class="icon-preview-section">
+          <div class="icon-canvas-wrapper">
+            <div class="icon-canvas" id="iconCanvas">
+              <span id="iconContent">🎨</span>
+            </div>
           </div>
         </div>
 
         <!-- Controls -->
-        <div class="icon-controls">
-          <div class="control-section">
-            <label class="control-section-title">Emoji</label>
-            <input type="text" id="emojiInput" class="emoji-input" value="🎨" maxlength="2" />
-          </div>
-
-          <div class="control-section">
-            <label class="control-section-title">Gradient Preset</label>
-            <div class="gradient-presets">
-              <div
-                class="gradient-preset active"
-                data-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
-              ></div>
-              <div class="gradient-preset" data-gradient="linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)"></div>
-              <div class="gradient-preset" data-gradient="linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)"></div>
-              <div class="gradient-preset" data-gradient="linear-gradient(135deg, #f97316 0%, #fbbf24 100%)"></div>
-              <div class="gradient-preset" data-gradient="linear-gradient(135deg, #10b981 0%, #059669 100%)"></div>
-              <div class="gradient-preset" data-gradient="linear-gradient(135deg, #ef4444 0%, #dc2626 100%)"></div>
+        <div class="icon-controls-section">
+          <!-- Icon Input -->
+          <div class="control-panel">
+            <div class="control-panel-header">
+              <h3 class="control-panel-title">Icon</h3>
             </div>
-          </div>
-
-          <div class="control-section">
-            <div class="slider-container">
-              <div class="slider-label">
-                <span>Border Radius</span>
-                <span id="radiusValue">64px</span>
+            <div class="control-panel-content">
+              <div class="form-row">
+                <label>Emoji or Text</label>
+                <input type="text" id="emojiInput" class="emoji-input" value="🎨" maxlength="4" />
               </div>
-              <input type="range" id="radiusSlider" min="0" max="128" value="64" />
             </div>
           </div>
 
-          <div class="control-section">
-            <label class="control-section-title">Size</label>
-            <select id="sizeSelect">
-              <option value="256">256px</option>
-              <option value="512">512px</option>
-              <option value="1024">1024px</option>
-            </select>
+          <!-- Gradient Presets -->
+          <div class="control-panel">
+            <div class="control-panel-header" data-toggle="presets">
+              <h3 class="control-panel-title">Gradient Presets</h3>
+            </div>
+            <div class="control-panel-content" id="presetsContent">
+              <div class="gradient-presets-grid" id="presetsGrid"></div>
+            </div>
           </div>
 
-          <button class="primary" id="exportBtn">
-            <span>💾</span>
-            <span>Export PNG</span>
-          </button>
+          <!-- Fill Styles -->
+          <div class="control-panel">
+            <div class="control-panel-header" data-toggle="fill">
+              <h3 class="control-panel-title">Fill Styles</h3>
+            </div>
+            <div class="control-panel-content" id="fillContent">
+              <div class="fill-type-tabs">
+                <button class="fill-type-tab active" data-fill="linear">Linear</button>
+                <button class="fill-type-tab" data-fill="radial">Radial</button>
+                <button class="fill-type-tab" data-fill="solid">Solid</button>
+              </div>
+
+              <div class="form-row">
+                <label id="primaryColorLabel">Primary Color</label>
+                <div class="color-input-wrapper">
+                  <div class="color-swatch" id="primarySwatch"></div>
+                  <input type="text" id="primaryColor" class="color-text-input" value="#8E2DE2" />
+                </div>
+              </div>
+
+              <div class="form-row" id="secondaryColorRow">
+                <label>Secondary Color</label>
+                <div class="color-input-wrapper">
+                  <div class="color-swatch" id="secondarySwatch"></div>
+                  <input type="text" id="secondaryColor" class="color-text-input" value="#4A00E0" />
+                </div>
+              </div>
+
+              <div class="form-row" id="angleRow">
+                <label>Angle</label>
+                <div class="angle-input-group">
+                  <input type="range" id="angleSlider" min="0" max="360" value="45" />
+                  <input type="number" id="angleInput" min="0" max="360" value="45" />
+                </div>
+              </div>
+
+              <div class="form-row" id="spreadRow" style="display: none">
+                <div class="slider-row">
+                  <label>Spread</label>
+                  <input type="range" id="spreadSlider" min="0" max="100" value="100" />
+                  <span class="value" id="spreadValue">100%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Background Options -->
+          <div class="control-panel">
+            <div class="control-panel-header" data-toggle="background">
+              <h3 class="control-panel-title">Background Options</h3>
+            </div>
+            <div class="control-panel-content" id="backgroundContent">
+              <div class="form-row">
+                <div class="slider-row">
+                  <label>Radius</label>
+                  <input type="range" id="radiusSlider" min="0" max="128" value="64" />
+                  <span class="value" id="radiusValue">64px</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Icon Options -->
+          <div class="control-panel">
+            <div class="control-panel-header" data-toggle="icon">
+              <h3 class="control-panel-title">Icon Options</h3>
+            </div>
+            <div class="control-panel-content" id="iconOptions">
+              <div class="form-row">
+                <label>Icon Color</label>
+                <div class="color-input-wrapper">
+                  <div class="color-swatch" id="iconColorSwatch"></div>
+                  <input type="text" id="iconColor" class="color-text-input" value="#FFFFFF" />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="slider-row">
+                  <label>Size</label>
+                  <input type="range" id="iconSizeSlider" min="32" max="200" value="128" />
+                  <span class="value" id="iconSizeValue">128px</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Export -->
+          <div class="export-buttons">
+            <button class="primary" id="exportPngBtn">Export PNG</button>
+            <button class="secondary" id="copySvgBtn">Copy SVG</button>
+          </div>
         </div>
       </div>
     </div>
 
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Copied!</div>
+
     <script src="nav.js"></script>
     <script>
-      // Icon maker elements
+      // Gradient presets data (extracted from original)
+      const presets = [
+        { type: "Linear", start: "#8E2DE2", end: "#4A00E0", angle: 45, icon: "#FFFFFF" },
+        { type: "Linear", start: "#99F2C8", end: "#1F4037", angle: 45, icon: "#FFFFFF" },
+        { type: "Linear", start: "#F953C6", end: "#B91D73", angle: 45, icon: "#FFFFFF" },
+        { type: "Linear", start: "#91EAE4", end: "#7F7FD5", angle: 45, icon: "#FFFFFF" },
+        { type: "Linear", start: "#F5AF19", end: "#F12711", angle: 45, icon: "#FFFFFF" },
+        { type: "Linear", start: "#EAAFC8", end: "#EC2F4B", angle: 45, icon: "#FFFFFF" },
+        { type: "Linear", start: "#FF7DB4", end: "#654EA3", angle: 45, icon: "#FFFFFF" },
+        { type: "Linear", start: "#00B4DB", end: "#003357", angle: 45, icon: "#FFFFFF" },
+        { type: "Linear", start: "#A8C0FF", end: "#3F2B96", angle: 90, icon: "#FFFFFF" },
+        { type: "Linear", start: "#DD1818", end: "#380202", angle: 135, icon: "#FFFFFF" },
+        { type: "Linear", start: "#DECBA4", end: "#3E5151", angle: 45, icon: "#FFFFFF" },
+        { type: "Linear", start: "#FC466B", end: "#3F5EFB", angle: 180, icon: "#FFFFFF" },
+        { type: "Linear", start: "#CCCFE2", end: "#25242B", angle: 180, icon: "#FFFFFF" },
+        { type: "Linear", start: "#68AEFF", end: "#003EB7", angle: 180, icon: "#FFFFFF" },
+        { type: "Linear", start: "#C9D6FF", end: "#596AA1", angle: 180, icon: "#FFFFFF" },
+        { type: "Linear", start: "#5C5C5C", end: "#0F1015", angle: 180, icon: "#FFFFFF" },
+        { type: "Radial", start: "#695BF8", end: "#131308", position: "50%,0%", icon: "#FFFFFF" },
+        { type: "Radial", start: "#4d4d4d", end: "#000000", position: "50%,0%", icon: "#e6e6e6" },
+        { type: "Radial", start: "#f5af19", end: "#f12711", position: "50%,50%", icon: "#FFFFFF" },
+        { type: "Radial", start: "#1D6E47", end: "#041B11", position: "50%,0%", icon: "#DCEEDE" },
+        { type: "Radial", start: "#ffffff", end: "#666666", position: "50%,100%", icon: "#232323" },
+        { type: "Radial", start: "#d9f1f8", end: "#002069", position: "50%,100%", icon: "#e3efff" },
+        { type: "Radial", start: "#f95356", end: "#7e0000", position: "50%,50%", icon: "#ffd5d5" },
+        { type: "Radial", start: "#ffbb00", end: "#ffe74b", position: "50%,0%", icon: "#2a1a00" },
+      ];
+
+      // State
+      let currentFillType = "linear";
+      let currentPresetIndex = 0;
+      let currentSettings = {
+        fillType: "linear",
+        primaryColor: "#8E2DE2",
+        secondaryColor: "#4A00E0",
+        angle: 45,
+        radius: 64,
+        iconColor: "#FFFFFF",
+        iconSize: 128,
+        emoji: "🎨",
+        spread: 100,
+      };
+
+      // Elements
       const iconCanvas = document.getElementById("iconCanvas");
-      const iconEmoji = document.getElementById("iconEmoji");
+      const iconContent = document.getElementById("iconContent");
       const emojiInput = document.getElementById("emojiInput");
+      const primaryColor = document.getElementById("primaryColor");
+      const secondaryColor = document.getElementById("secondaryColor");
+      const primarySwatch = document.getElementById("primarySwatch");
+      const secondarySwatch = document.getElementById("secondarySwatch");
+      const angleSlider = document.getElementById("angleSlider");
+      const angleInput = document.getElementById("angleInput");
       const radiusSlider = document.getElementById("radiusSlider");
       const radiusValue = document.getElementById("radiusValue");
-      const sizeSelect = document.getElementById("sizeSelect");
-      const exportBtn = document.getElementById("exportBtn");
+      const iconColor = document.getElementById("iconColor");
+      const iconColorSwatch = document.getElementById("iconColorSwatch");
+      const iconSizeSlider = document.getElementById("iconSizeSlider");
+      const iconSizeValue = document.getElementById("iconSizeValue");
+      const spreadSlider = document.getElementById("spreadSlider");
+      const spreadValue = document.getElementById("spreadValue");
+      const exportPngBtn = document.getElementById("exportPngBtn");
+      const copySvgBtn = document.getElementById("copySvgBtn");
+      const toast = document.getElementById("toast");
+      const presetsGrid = document.getElementById("presetsGrid");
+      const fillTypeTabs = document.querySelectorAll(".fill-type-tab");
+      const secondaryColorRow = document.getElementById("secondaryColorRow");
+      const angleRow = document.getElementById("angleRow");
+      const spreadRow = document.getElementById("spreadRow");
+      const primaryColorLabel = document.getElementById("primaryColorLabel");
 
-      // Gradient presets
-      const gradientPresets = document.querySelectorAll(".gradient-preset");
-      gradientPresets.forEach((preset, index) => {
-        const gradients = [
-          "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-          "linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)",
-          "linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)",
-          "linear-gradient(135deg, #f97316 0%, #fbbf24 100%)",
-          "linear-gradient(135deg, #10b981 0%, #059669 100%)",
-          "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
-        ];
+      // Toast notification
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("show");
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 2000);
+      }
 
-        preset.style.background = gradients[index];
+      // Render gradient presets
+      function renderPresets() {
+        presetsGrid.innerHTML = "";
+        presets.forEach((preset, index) => {
+          const div = document.createElement("div");
+          div.className = `gradient-preset ${index === currentPresetIndex ? "active" : ""}`;
 
-        preset.addEventListener("click", () => {
-          gradientPresets.forEach((p) => p.classList.remove("active"));
-          preset.classList.add("active");
-          iconCanvas.style.background = gradients[index];
+          if (preset.type === "Linear") {
+            div.style.background = `linear-gradient(${preset.angle}deg, ${preset.start}, ${preset.end})`;
+          } else if (preset.type === "Radial") {
+            const [cx, cy] = preset.position.split(",");
+            div.style.background = `radial-gradient(circle at ${cx} ${cy}, ${preset.start}, ${preset.end})`;
+          }
+
+          div.addEventListener("click", () => applyPreset(index));
+          presetsGrid.appendChild(div);
+        });
+      }
+
+      // Apply preset
+      function applyPreset(index) {
+        currentPresetIndex = index;
+        const preset = presets[index];
+
+        // Update fill type
+        currentFillType = preset.type.toLowerCase();
+        fillTypeTabs.forEach((tab) => {
+          tab.classList.toggle("active", tab.dataset.fill === currentFillType);
+        });
+        updateFillTypeUI();
+
+        // Update colors
+        currentSettings.primaryColor = preset.start;
+        currentSettings.secondaryColor = preset.end;
+        currentSettings.iconColor = preset.icon;
+        primaryColor.value = preset.start;
+        secondaryColor.value = preset.end;
+        iconColor.value = preset.icon;
+
+        // Update angle if linear
+        if (preset.angle !== undefined) {
+          currentSettings.angle = preset.angle;
+          angleSlider.value = preset.angle;
+          angleInput.value = preset.angle;
+        }
+
+        renderPresets();
+        updateCanvas();
+      }
+
+      // Update fill type UI
+      function updateFillTypeUI() {
+        if (currentFillType === "solid") {
+          secondaryColorRow.style.display = "none";
+          angleRow.style.display = "none";
+          spreadRow.style.display = "none";
+          primaryColorLabel.textContent = "Color";
+        } else if (currentFillType === "linear") {
+          secondaryColorRow.style.display = "flex";
+          angleRow.style.display = "flex";
+          spreadRow.style.display = "none";
+          primaryColorLabel.textContent = "Primary Color";
+        } else if (currentFillType === "radial") {
+          secondaryColorRow.style.display = "flex";
+          angleRow.style.display = "none";
+          spreadRow.style.display = "flex";
+          primaryColorLabel.textContent = "Primary Color";
+        }
+      }
+
+      // Update canvas
+      function updateCanvas() {
+        // Update icon content
+        iconContent.textContent = currentSettings.emoji;
+        iconContent.style.color = currentSettings.iconColor;
+        iconContent.style.fontSize = currentSettings.iconSize + "px";
+
+        // Update background
+        if (currentFillType === "solid") {
+          iconCanvas.style.background = currentSettings.primaryColor;
+        } else if (currentFillType === "linear") {
+          iconCanvas.style.background = `linear-gradient(${currentSettings.angle}deg, ${currentSettings.primaryColor}, ${currentSettings.secondaryColor})`;
+        } else if (currentFillType === "radial") {
+          iconCanvas.style.background = `radial-gradient(circle, ${currentSettings.primaryColor}, ${currentSettings.secondaryColor})`;
+        }
+
+        // Update border radius
+        iconCanvas.style.borderRadius = currentSettings.radius + "px";
+
+        // Update swatches
+        primarySwatch.style.background = currentSettings.primaryColor;
+        secondarySwatch.style.background = currentSettings.secondaryColor;
+        iconColorSwatch.style.background = currentSettings.iconColor;
+      }
+
+      // Event listeners for fill type tabs
+      fillTypeTabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          currentFillType = tab.dataset.fill;
+          currentSettings.fillType = currentFillType;
+          currentPresetIndex = -1;
+          fillTypeTabs.forEach((t) => t.classList.remove("active"));
+          tab.classList.add("active");
+          updateFillTypeUI();
+          updateCanvas();
+          renderPresets();
         });
       });
 
       // Emoji input
       emojiInput.addEventListener("input", (e) => {
-        iconEmoji.textContent = e.target.value;
+        currentSettings.emoji = e.target.value || "🎨";
+        currentPresetIndex = -1;
+        updateCanvas();
+        renderPresets();
       });
 
-      // Border radius slider
+      // Color inputs
+      primaryColor.addEventListener("input", (e) => {
+        currentSettings.primaryColor = e.target.value;
+        currentPresetIndex = -1;
+        updateCanvas();
+        renderPresets();
+      });
+
+      secondaryColor.addEventListener("input", (e) => {
+        currentSettings.secondaryColor = e.target.value;
+        currentPresetIndex = -1;
+        updateCanvas();
+        renderPresets();
+      });
+
+      iconColor.addEventListener("input", (e) => {
+        currentSettings.iconColor = e.target.value;
+        currentPresetIndex = -1;
+        updateCanvas();
+        renderPresets();
+      });
+
+      // Color swatch clicks
+      primarySwatch.addEventListener("click", () => primaryColor.focus());
+      secondarySwatch.addEventListener("click", () => secondaryColor.focus());
+      iconColorSwatch.addEventListener("click", () => iconColor.focus());
+
+      // Angle controls
+      angleSlider.addEventListener("input", (e) => {
+        currentSettings.angle = parseInt(e.target.value);
+        angleInput.value = e.target.value;
+        currentPresetIndex = -1;
+        updateCanvas();
+        renderPresets();
+      });
+
+      angleInput.addEventListener("input", (e) => {
+        currentSettings.angle = parseInt(e.target.value);
+        angleSlider.value = e.target.value;
+        currentPresetIndex = -1;
+        updateCanvas();
+        renderPresets();
+      });
+
+      // Radius slider
       radiusSlider.addEventListener("input", (e) => {
-        const value = e.target.value;
-        radiusValue.textContent = `${value}px`;
-        iconCanvas.style.borderRadius = `${value}px`;
+        currentSettings.radius = parseInt(e.target.value);
+        radiusValue.textContent = e.target.value + "px";
+        updateCanvas();
       });
 
-      // Export to PNG
-      exportBtn.addEventListener("click", async () => {
-        exportBtn.disabled = true;
-        exportBtn.innerHTML = "<span>⏳</span><span>Exporting...</span>";
+      // Icon size slider
+      iconSizeSlider.addEventListener("input", (e) => {
+        currentSettings.iconSize = parseInt(e.target.value);
+        iconSizeValue.textContent = e.target.value + "px";
+        updateCanvas();
+      });
+
+      // Spread slider
+      spreadSlider.addEventListener("input", (e) => {
+        currentSettings.spread = parseInt(e.target.value);
+        spreadValue.textContent = e.target.value + "%";
+        updateCanvas();
+      });
+
+      // Panel toggle
+      document.querySelectorAll(".control-panel-header").forEach((header) => {
+        header.addEventListener("click", () => {
+          const content = header.nextElementSibling;
+          content.classList.toggle("collapsed");
+        });
+      });
+
+      // Export PNG
+      exportPngBtn.addEventListener("click", async () => {
+        exportPngBtn.disabled = true;
+        exportPngBtn.textContent = "Exporting...";
 
         try {
-          const size = parseInt(sizeSelect.value);
-          const canvas = document.createElement("canvas");
-          const ctx = canvas.getContext("2d");
+          const canvas = await html2canvas(iconCanvas, {
+            backgroundColor: null,
+            scale: 2,
+          });
 
-          canvas.width = size;
-          canvas.height = size;
-
-          // Get gradient
-          const activeGradient = document.querySelector(".gradient-preset.active");
-          const gradientStyle = window.getComputedStyle(activeGradient).background;
-
-          // Draw gradient background
-          const gradient = ctx.createLinearGradient(0, 0, size, size);
-          gradient.addColorStop(0, "#667eea");
-          gradient.addColorStop(1, "#764ba2");
-
-          const radius = parseInt(radiusSlider.value) * (size / 256);
-
-          // Draw rounded rectangle
-          ctx.beginPath();
-          ctx.roundRect(0, 0, size, size, radius);
-          ctx.fillStyle = gradient;
-          ctx.fill();
-
-          // Draw emoji
-          ctx.font = `${size / 2}px Arial`;
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.fillText(iconEmoji.textContent, size / 2, size / 2);
-
-          // Download
-          const link = document.createElement("a");
-          link.download = "icon.png";
-          link.href = canvas.toDataURL();
-          link.click();
+          canvas.toBlob((blob) => {
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.download = "icon.png";
+            link.href = url;
+            link.click();
+            URL.revokeObjectURL(url);
+            showToast("Exported PNG!");
+          });
         } catch (error) {
           console.error("Export failed:", error);
+          showToast("Export failed");
         } finally {
-          exportBtn.disabled = false;
-          exportBtn.innerHTML = "<span>💾</span><span>Export PNG</span>";
+          exportPngBtn.disabled = false;
+          exportPngBtn.textContent = "Export PNG";
         }
       });
+
+      // Copy SVG
+      copySvgBtn.addEventListener("click", () => {
+        const size = 512;
+        const radius = currentSettings.radius * 2;
+        let background = "";
+
+        if (currentFillType === "solid") {
+          background = `fill="${currentSettings.primaryColor}"`;
+        } else if (currentFillType === "linear") {
+          background = `fill="url(#gradient)"`;
+        } else if (currentFillType === "radial") {
+          background = `fill="url(#gradient)"`;
+        }
+
+        let gradientDef = "";
+        if (currentFillType === "linear") {
+          const angle = currentSettings.angle;
+          const rad = (angle * Math.PI) / 180;
+          const x2 = Math.cos(rad) * 100;
+          const y2 = Math.sin(rad) * 100;
+          gradientDef = `
+    <defs>
+      <linearGradient id="gradient" x1="0%" y1="0%" x2="${x2}%" y2="${y2}%">
+        <stop offset="0%" stop-color="${currentSettings.primaryColor}" />
+        <stop offset="100%" stop-color="${currentSettings.secondaryColor}" />
+      </linearGradient>
+    </defs>`;
+        } else if (currentFillType === "radial") {
+          gradientDef = `
+    <defs>
+      <radialGradient id="gradient" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="${currentSettings.primaryColor}" />
+        <stop offset="100%" stop-color="${currentSettings.secondaryColor}" />
+      </radialGradient>
+    </defs>`;
+        }
+
+        const svg = `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">${gradientDef}
+  <rect width="${size}" height="${size}" rx="${radius}" ${background} />
+  <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" font-size="${currentSettings.iconSize}" fill="${currentSettings.iconColor}">${currentSettings.emoji}</text>
+</svg>`;
+
+        navigator.clipboard.writeText(svg).then(() => {
+          showToast("Copied SVG to clipboard!");
+        });
+      });
+
+      // Initialize
+      renderPresets();
+      updateFillTypeUI();
+      updateCanvas();
     </script>
   </body>
 </html>
