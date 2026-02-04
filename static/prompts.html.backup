@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prompt Explorer - Ray.so</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav class="navigation">
+      <div class="nav-content">
+        <div class="nav-left">
+          <div class="nav-dropdown">
+            <button class="nav-trigger" id="navTrigger">
+              <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <rect x="4" y="5" width="16" height="3" rx="1.5" fill="currentColor" />
+                <rect x="4" y="10.5" width="16" height="3" rx="1.5" fill="currentColor" />
+                <rect x="4" y="16" width="8" height="3" rx="1.5" fill="currentColor" />
+              </svg>
+              <span>Prompts</span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+              <a href="index.html" class="nav-menu-item">
+                <div class="nav-menu-icon">🖼️</div>
+                <div class="nav-menu-text">
+                  <span class="nav-menu-title">Code Images</span>
+                  <span class="nav-menu-desc">Create beautiful images of your code</span>
+                </div>
+              </a>
+              <a href="icon.html" class="nav-menu-item">
+                <div class="nav-menu-icon">🎨</div>
+                <div class="nav-menu-text">
+                  <span class="nav-menu-title">Icon Maker</span>
+                  <span class="nav-menu-desc">Create beautiful icons</span>
+                </div>
+              </a>
+              <a href="prompts.html" class="nav-menu-item active">
+                <div class="nav-menu-icon">💬</div>
+                <div class="nav-menu-text">
+                  <span class="nav-menu-title">Prompts</span>
+                  <span class="nav-menu-desc">Explore AI Prompts for Raycast</span>
+                </div>
+              </a>
+              <a href="presets.html" class="nav-menu-item">
+                <div class="nav-menu-icon">⚙️</div>
+                <div class="nav-menu-text">
+                  <span class="nav-menu-title">Presets</span>
+                  <span class="nav-menu-desc">Explore AI Presets for Raycast</span>
+                </div>
+              </a>
+              <a href="quicklinks.html" class="nav-menu-item">
+                <div class="nav-menu-icon">🔗</div>
+                <div class="nav-menu-text">
+                  <span class="nav-menu-title">Quicklinks</span>
+                  <span class="nav-menu-desc">Explore Raycast Quicklinks</span>
+                </div>
+              </a>
+              <a href="snippets.html" class="nav-menu-item">
+                <div class="nav-menu-icon">📝</div>
+                <div class="nav-menu-text">
+                  <span class="nav-menu-title">Snippets</span>
+                  <span class="nav-menu-desc">Browse and import Raycast Snippets</span>
+                </div>
+              </a>
+              <a href="themes.html" class="nav-menu-item">
+                <div class="nav-menu-icon">🎭</div>
+                <div class="nav-menu-text">
+                  <span class="nav-menu-title">Themes</span>
+                  <span class="nav-menu-desc">Browse and import Raycast Themes</span>
+                </div>
+              </a>
+            </div>
+          </div>
+          <span class="nav-by">by</span>
+          <a href="https://raycast.com" target="_blank" class="nav-raycast">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M10 0L12.2451 7.75492L20 10L12.2451 12.2451L10 20L7.75492 12.2451L0 10L7.75492 7.75492L10 0Z"
+                fill="#FF6363"
+              />
+            </svg>
+            <span>Raycast</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="main-container">
+      <div id="content">
+        <div class="loading">Loading prompts...</div>
+      </div>
+    </main>
+
+    <script src="nav.js"></script>
+    <script src="prompts-data.js"></script>
+    <script>
+      function loadPrompts() {
+        const content = document.getElementById("content");
+        content.innerHTML = "";
+
+        const section = document.createElement("div");
+        section.style.marginBottom = "2rem";
+
+        const title = document.createElement("h2");
+        title.textContent = "AI Prompts";
+        title.style.cssText =
+          "font-size: 1.5rem; color: var(--gray-12); margin: 2rem 1rem 1rem; max-width: 1400px; margin-left: auto; margin-right: auto;";
+        section.appendChild(title);
+
+        const grid = document.createElement("div");
+        grid.className = "prompts-grid";
+
+        promptsData.forEach((prompt) => {
+          const card = document.createElement("div");
+          card.className = "prompt-card";
+          card.onclick = () => {
+            const modal = document.createElement("div");
+            modal.style.cssText =
+              "position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 2rem;";
+            modal.onclick = () => modal.remove();
+
+            const modalContent = document.createElement("div");
+            modalContent.style.cssText =
+              "background: var(--gray-2); border: 1px solid var(--gray-6); border-radius: 12px; padding: 2rem; max-width: 600px; max-height: 80vh; overflow-y: auto;";
+            modalContent.onclick = (e) => e.stopPropagation();
+
+            const modalTitle = document.createElement("h3");
+            modalTitle.textContent = prompt.title;
+            modalTitle.style.cssText = "color: var(--gray-12); margin-bottom: 1rem; font-size: 1.5rem;";
+
+            const promptText = document.createElement("pre");
+            promptText.textContent = prompt.prompt;
+            promptText.style.cssText =
+              "color: var(--gray-11); white-space: pre-wrap; font-family: monospace; background: var(--gray-3); padding: 1rem; border-radius: 6px; line-height: 1.5;";
+
+            const closeBtn = document.createElement("button");
+            closeBtn.textContent = "Close";
+            closeBtn.style.cssText =
+              "margin-top: 1rem; padding: 0.5rem 1rem; background: var(--gray-12); color: var(--gray-1); border: none; border-radius: 6px; cursor: pointer; font-size: 0.875rem;";
+            closeBtn.onclick = () => modal.remove();
+
+            modalContent.appendChild(modalTitle);
+            modalContent.appendChild(promptText);
+            modalContent.appendChild(closeBtn);
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+          };
+
+          card.innerHTML = `
+            <div class="prompt-title">${prompt.icon} ${prompt.title}</div>
+            <div class="prompt-preview">${prompt.prompt.substring(0, 150)}...</div>
+          `;
+
+          grid.appendChild(card);
+        });
+
+        section.appendChild(grid);
+        content.appendChild(section);
+      }
+
+      loadPrompts();
+    </script>
+  </body>
+</html>

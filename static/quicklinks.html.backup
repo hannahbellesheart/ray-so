@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quicklinks - Ray.so</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .quicklinks-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1rem;
+        padding: 1rem;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+      .quicklink-card {
+        background: var(--gray-2);
+        border: 1px solid var(--gray-4);
+        border-radius: 8px;
+        padding: 1.5rem;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .quicklink-card:hover {
+        border-color: var(--gray-6);
+        background: var(--gray-3);
+      }
+      .quicklink-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--gray-12);
+        margin-bottom: 0.5rem;
+      }
+      .quicklink-description {
+        font-size: 0.875rem;
+        color: var(--gray-11);
+        line-height: 1.5;
+      }
+      .loading {
+        text-align: center;
+        padding: 3rem;
+        color: var(--gray-11);
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navigation">
+      <div class="nav-content">
+        <div class="nav-left">
+          <div class="nav-dropdown">
+            <button class="nav-trigger" id="navTrigger">
+              <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <rect x="4" y="5" width="16" height="3" rx="1.5" fill="currentColor" />
+                <rect x="4" y="10.5" width="16" height="3" rx="1.5" fill="currentColor" />
+                <rect x="4" y="16" width="8" height="3" rx="1.5" fill="currentColor" />
+              </svg>
+              <span>Quicklinks</span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+              <a href="index.html" class="nav-menu-item">
+                <div class="nav-menu-icon">🖼️</div>
+                <div class="nav-menu-text">
+                  <span class="nav-menu-title">Code Images</span>
+                  <span class="nav-menu-desc">Create beautiful images of your code</span>
+                </div>
+              </a>
+              <a href="icon.html" class="nav-menu-item">
+                <div class="nav-menu-icon">🎨</div>
+                <div class="nav-menu-text">
+                  <span class="nav-menu-title">Icon Maker</span>
+                  <span class="nav-menu-desc">Create beautiful icons</span>
+                </div>
+              </a>
+              <a href="prompts.html" class="nav-menu-item">
+                <div class="nav-menu-icon">💬</div>
+                <div class="nav-menu-text">
+                  <span class="nav-menu-title">Prompts</span>
+                  <span class="nav-menu-desc">Explore AI Prompts for Raycast</span>
+                </div>
+              </a>
+              <a href="presets.html" class="nav-menu-item">
+                <div class="nav-menu-icon">⚙️</div>
+                <div class="nav-menu-text">
+                  <span class="nav-menu-title">Presets</span>
+                  <span class="nav-menu-desc">Explore AI Presets for Raycast</span>
+                </div>
+              </a>
+              <a href="quicklinks.html" class="nav-menu-item active">
+                <div class="nav-menu-icon">🔗</div>
+                <div class="nav-menu-text">
+                  <span class="nav-menu-title">Quicklinks</span>
+                  <span class="nav-menu-desc">Explore Raycast Quicklinks</span>
+                </div>
+              </a>
+              <a href="snippets.html" class="nav-menu-item">
+                <div class="nav-menu-icon">📝</div>
+                <div class="nav-menu-text">
+                  <span class="nav-menu-title">Snippets</span>
+                  <span class="nav-menu-desc">Browse and import Raycast Snippets</span>
+                </div>
+              </a>
+              <a href="themes.html" class="nav-menu-item">
+                <div class="nav-menu-icon">🎭</div>
+                <div class="nav-menu-text">
+                  <span class="nav-menu-title">Themes</span>
+                  <span class="nav-menu-desc">Browse and import Raycast Themes</span>
+                </div>
+              </a>
+            </div>
+          </div>
+          <span class="nav-by">by</span>
+          <a href="https://raycast.com" target="_blank" class="nav-raycast">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M10 0L12.2451 7.75492L20 10L12.2451 12.2451L10 20L7.75492 12.2451L0 10L7.75492 7.75492L10 0Z"
+                fill="#FF6363"
+              />
+            </svg>
+            <span>Raycast</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="main-container">
+      <div id="content">
+        <div class="loading">Loading quicklinks...</div>
+      </div>
+    </main>
+
+    <script src="nav.js"></script>
+    <script src="quicklinks-data.js"></script>
+    <script>
+      function loadQuicklinks() {
+        const content = document.getElementById("content");
+        const grid = document.createElement("div");
+        grid.className = "quicklinks-grid";
+
+        quicklinksData.forEach((quicklink) => {
+          const card = document.createElement("div");
+          card.className = "quicklink-card";
+          card.onclick = () => {
+            window.open(quicklink.link, "_blank");
+          };
+
+          card.innerHTML = `
+            <div class="quicklink-title">${quicklink.name}</div>
+            <div class="quicklink-description">${quicklink.description}</div>
+          `;
+
+          grid.appendChild(card);
+        });
+
+        content.innerHTML = "";
+        content.appendChild(grid);
+      }
+
+      loadQuicklinks();
+    </script>
+  </body>
+</html>
