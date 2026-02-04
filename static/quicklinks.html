@@ -130,51 +130,30 @@
     </main>
 
     <script src="nav.js"></script>
+    <script src="quicklinks-data.js"></script>
     <script>
-      async function loadQuicklinks() {
-        try {
-          const response = await fetch("/api/quicklinks");
-          const categories = await response.json();
+      function loadQuicklinks() {
+        const content = document.getElementById("content");
+        const grid = document.createElement("div");
+        grid.className = "quicklinks-grid";
 
-          const content = document.getElementById("content");
-          content.innerHTML = "";
+        quicklinksData.forEach((quicklink) => {
+          const card = document.createElement("div");
+          card.className = "quicklink-card";
+          card.onclick = () => {
+            window.open(quicklink.link, "_blank");
+          };
 
-          categories.forEach((category) => {
-            const section = document.createElement("div");
-            section.style.marginBottom = "2rem";
+          card.innerHTML = `
+            <div class="quicklink-title">${quicklink.name}</div>
+            <div class="quicklink-description">${quicklink.description}</div>
+          `;
 
-            const title = document.createElement("h2");
-            title.textContent = category.name;
-            title.style.cssText =
-              "font-size: 1.5rem; color: var(--gray-12); margin: 2rem 1rem 1rem; max-width: 1400px; margin-left: auto; margin-right: auto;";
-            section.appendChild(title);
+          grid.appendChild(card);
+        });
 
-            const grid = document.createElement("div");
-            grid.className = "quicklinks-grid";
-
-            category.quicklinks.forEach((quicklink) => {
-              const card = document.createElement("div");
-              card.className = "quicklink-card";
-              card.onclick = () => {
-                const url = `raycast://quicklink?name=${encodeURIComponent(quicklink.name)}&link=${encodeURIComponent(quicklink.link)}`;
-                window.location.href = url;
-              };
-
-              card.innerHTML = `
-                <div class="quicklink-title">${quicklink.name}</div>
-                <div class="quicklink-description">${quicklink.description || quicklink.link}</div>
-              `;
-
-              grid.appendChild(card);
-            });
-
-            section.appendChild(grid);
-            content.appendChild(section);
-          });
-        } catch (error) {
-          document.getElementById("content").innerHTML =
-            '<div class="loading">Error loading quicklinks. Please make sure the Next.js dev server is running.</div>';
-        }
+        content.innerHTML = "";
+        content.appendChild(grid);
       }
 
       loadQuicklinks();

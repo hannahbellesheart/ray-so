@@ -142,50 +142,41 @@
     </main>
 
     <script src="nav.js"></script>
+    <script src="themes-data.js"></script>
     <script>
-      async function loadThemes() {
-        try {
-          const response = await fetch("/api/themes");
-          const themes = await response.json();
+      function loadThemes() {
+        const content = document.getElementById("content");
+        const grid = document.createElement("div");
+        grid.className = "themes-grid";
 
-          const content = document.getElementById("content");
-          const grid = document.createElement("div");
-          grid.className = "themes-grid";
+        themesData.forEach((theme) => {
+          const card = document.createElement("div");
+          card.className = "theme-card";
+          card.onclick = () => {
+            alert(`Theme: ${theme.name}\\nThis is a demo theme. Visit ray.so/themes for the full collection.`);
+          };
 
-          themes.forEach((theme) => {
-            const card = document.createElement("div");
-            card.className = "theme-card";
-            card.onclick = () => {
-              const url = `raycast://theme?name=${encodeURIComponent(theme.name)}`;
-              window.location.href = url;
-            };
+          const preview = `
+            <div class="theme-preview">
+              <div class="theme-color" style="background: ${theme.colors.background};"></div>
+              <div class="theme-color" style="background: ${theme.colors.blue};"></div>
+              <div class="theme-color" style="background: ${theme.colors.purple};"></div>
+              <div class="theme-color" style="background: ${theme.colors.green};"></div>
+              <div class="theme-color" style="background: ${theme.colors.red};"></div>
+            </div>
+          `;
 
-            const preview = theme.colors
-              ? `
-              <div class="theme-preview">
-                ${Object.values(theme.colors)
-                  .slice(0, 5)
-                  .map((color) => `<div class="theme-color" style="background: ${color};"></div>`)
-                  .join("")}
-              </div>
-            `
-              : "";
+          card.innerHTML = `
+            <div class="theme-title">${theme.name}</div>
+            <div class="theme-author">by ${theme.author}</div>
+            ${preview}
+          `;
 
-            card.innerHTML = `
-              <div class="theme-title">${theme.name}</div>
-              <div class="theme-author">by ${theme.author || "Unknown"}</div>
-              ${preview}
-            `;
+          grid.appendChild(card);
+        });
 
-            grid.appendChild(card);
-          });
-
-          content.innerHTML = "";
-          content.appendChild(grid);
-        } catch (error) {
-          document.getElementById("content").innerHTML =
-            '<div class="loading">Error loading themes. Please make sure the Next.js dev server is running.</div>';
-        }
+        content.innerHTML = "";
+        content.appendChild(grid);
       }
 
       loadThemes();
