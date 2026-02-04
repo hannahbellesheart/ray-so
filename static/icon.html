@@ -274,23 +274,8 @@
       </div>
     </div>
 
+    <script src="nav.js"></script>
     <script>
-      // Navigation
-      const navTrigger = document.getElementById("navTrigger");
-      const navMenu = document.getElementById("navMenu");
-
-      navTrigger.addEventListener("click", () => {
-        navMenu.classList.toggle("show");
-        navTrigger.classList.toggle("active");
-      });
-
-      document.addEventListener("click", (e) => {
-        if (!navTrigger.contains(e.target) && !navMenu.contains(e.target)) {
-          navMenu.classList.remove("show");
-          navTrigger.classList.remove("active");
-        }
-      });
-
       // Icon maker elements
       const iconCanvas = document.getElementById("iconCanvas");
       const iconEmoji = document.getElementById("iconEmoji");
