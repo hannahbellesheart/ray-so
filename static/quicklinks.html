@@ -5,158 +5,179 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quicklinks - Ray.so</title>
     <link rel="stylesheet" href="style.css" />
-    <style>
-      .quicklinks-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 1rem;
-        padding: 1rem;
-        max-width: 1400px;
-        margin: 0 auto;
-      }
-      .quicklink-card {
-        background: var(--gray-2);
-        border: 1px solid var(--gray-4);
-        border-radius: 8px;
-        padding: 1.5rem;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-      .quicklink-card:hover {
-        border-color: var(--gray-6);
-        background: var(--gray-3);
-      }
-      .quicklink-title {
-        font-size: 1.125rem;
-        font-weight: 600;
-        color: var(--gray-12);
-        margin-bottom: 0.5rem;
-      }
-      .quicklink-description {
-        font-size: 0.875rem;
-        color: var(--gray-11);
-        line-height: 1.5;
-      }
-      .loading {
-        text-align: center;
-        padding: 3rem;
-        color: var(--gray-11);
-      }
-    </style>
   </head>
   <body>
+    <!-- Navigation -->
     <nav class="navigation">
       <div class="nav-content">
         <div class="nav-left">
           <div class="nav-dropdown">
             <button class="nav-trigger" id="navTrigger">
-              <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <rect x="4" y="5" width="16" height="3" rx="1.5" fill="currentColor" />
-                <rect x="4" y="10.5" width="16" height="3" rx="1.5" fill="currentColor" />
-                <rect x="4" y="16" width="8" height="3" rx="1.5" fill="currentColor" />
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                <rect x="3" y="14" width="7" height="7" rx="1"></rect>
               </svg>
               <span>Quicklinks</span>
             </button>
             <div class="nav-menu" id="navMenu">
               <a href="index.html" class="nav-menu-item">
-                <div class="nav-menu-icon">🖼️</div>
+                <div class="nav-menu-icon">📸</div>
                 <div class="nav-menu-text">
-                  <span class="nav-menu-title">Code Images</span>
-                  <span class="nav-menu-desc">Create beautiful images of your code</span>
+                  <div class="nav-menu-title">Code Screenshot</div>
+                  <div class="nav-menu-desc">Create beautiful code screenshots</div>
                 </div>
               </a>
               <a href="icon.html" class="nav-menu-item">
                 <div class="nav-menu-icon">🎨</div>
                 <div class="nav-menu-text">
-                  <span class="nav-menu-title">Icon Maker</span>
-                  <span class="nav-menu-desc">Create beautiful icons</span>
+                  <div class="nav-menu-title">Icon Maker</div>
+                  <div class="nav-menu-desc">Generate gradient icons</div>
                 </div>
               </a>
               <a href="prompts.html" class="nav-menu-item">
                 <div class="nav-menu-icon">💬</div>
                 <div class="nav-menu-text">
-                  <span class="nav-menu-title">Prompts</span>
-                  <span class="nav-menu-desc">Explore AI Prompts for Raycast</span>
+                  <div class="nav-menu-title">AI Prompts</div>
+                  <div class="nav-menu-desc">Browse AI prompt templates</div>
                 </div>
               </a>
               <a href="presets.html" class="nav-menu-item">
                 <div class="nav-menu-icon">⚙️</div>
                 <div class="nav-menu-text">
-                  <span class="nav-menu-title">Presets</span>
-                  <span class="nav-menu-desc">Explore AI Presets for Raycast</span>
+                  <div class="nav-menu-title">AI Presets</div>
+                  <div class="nav-menu-desc">AI configuration presets</div>
                 </div>
               </a>
               <a href="quicklinks.html" class="nav-menu-item active">
                 <div class="nav-menu-icon">🔗</div>
                 <div class="nav-menu-text">
-                  <span class="nav-menu-title">Quicklinks</span>
-                  <span class="nav-menu-desc">Explore Raycast Quicklinks</span>
+                  <div class="nav-menu-title">Quicklinks</div>
+                  <div class="nav-menu-desc">Quick access links</div>
                 </div>
               </a>
               <a href="snippets.html" class="nav-menu-item">
-                <div class="nav-menu-icon">📝</div>
+                <div class="nav-menu-icon">✂️</div>
                 <div class="nav-menu-text">
-                  <span class="nav-menu-title">Snippets</span>
-                  <span class="nav-menu-desc">Browse and import Raycast Snippets</span>
+                  <div class="nav-menu-title">Snippets</div>
+                  <div class="nav-menu-desc">Text snippets & symbols</div>
                 </div>
               </a>
               <a href="themes.html" class="nav-menu-item">
-                <div class="nav-menu-icon">🎭</div>
+                <div class="nav-menu-icon">🎨</div>
                 <div class="nav-menu-text">
-                  <span class="nav-menu-title">Themes</span>
-                  <span class="nav-menu-desc">Browse and import Raycast Themes</span>
+                  <div class="nav-menu-title">Themes</div>
+                  <div class="nav-menu-desc">Color themes</div>
                 </div>
               </a>
             </div>
           </div>
-          <span class="nav-by">by</span>
-          <a href="https://raycast.com" target="_blank" class="nav-raycast">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path
-                d="M10 0L12.2451 7.75492L20 10L12.2451 12.2451L10 20L7.75492 12.2451L0 10L7.75492 7.75492L10 0Z"
-                fill="#FF6363"
-              />
-            </svg>
-            <span>Raycast</span>
-          </a>
         </div>
+        <div class="nav-by">by <a href="https://raycast.com" class="nav-raycast" target="_blank">Raycast</a></div>
       </div>
     </nav>
 
-    <main class="main-container">
-      <div id="content">
-        <div class="loading">Loading quicklinks...</div>
+    <!-- Main Content -->
+    <div class="main-container">
+      <div class="listing-container">
+        <div class="listing-header">
+          <h1 class="listing-title">Quicklinks</h1>
+          <p class="listing-description">Quick access to useful links and tools</p>
+          <div class="mt-4">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search quicklinks..."
+              style="width: 100%; max-width: 400px"
+            />
+          </div>
+        </div>
+        <div class="listing-grid" id="quicklinksGrid">
+          <!-- Cards will be inserted here by JavaScript -->
+        </div>
       </div>
-    </main>
+    </div>
 
-    <script src="nav.js"></script>
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Opening link...</div>
+
     <script src="quicklinks-data.js"></script>
     <script>
-      function loadQuicklinks() {
-        const content = document.getElementById("content");
-        const grid = document.createElement("div");
-        grid.className = "quicklinks-grid";
+      // Navigation dropdown toggle
+      const navTrigger = document.getElementById("navTrigger");
+      const navMenu = document.getElementById("navMenu");
 
-        quicklinksData.forEach((quicklink) => {
+      navTrigger.addEventListener("click", () => {
+        navMenu.classList.toggle("show");
+        navTrigger.classList.toggle("active");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!navTrigger.contains(e.target) && !navMenu.contains(e.target)) {
+          navMenu.classList.remove("show");
+          navTrigger.classList.remove("active");
+        }
+      });
+
+      // Toast notification
+      const toast = document.getElementById("toast");
+      function showToast(message = "Opening link...") {
+        toast.textContent = message;
+        toast.classList.add("show");
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 2000);
+      }
+
+      // Open link
+      function openLink(url) {
+        showToast();
+        setTimeout(() => {
+          window.open(url, "_blank");
+        }, 300);
+      }
+
+      // Render quicklinks
+      function renderQuicklinks(links) {
+        const grid = document.getElementById("quicklinksGrid");
+        grid.innerHTML = "";
+
+        links.forEach((link) => {
           const card = document.createElement("div");
-          card.className = "quicklink-card";
-          card.onclick = () => {
-            window.open(quicklink.link, "_blank");
-          };
+          card.className = "card";
+          card.onclick = () => openLink(link.link);
 
           card.innerHTML = `
-            <div class="quicklink-title">${quicklink.name}</div>
-            <div class="quicklink-description">${quicklink.description}</div>
-          `;
+          <div class="card-header">
+            <div class="card-icon">🔗</div>
+            <h3 class="card-title">${link.name}</h3>
+          </div>
+          <p class="card-description">${link.description}</p>
+          <div class="card-meta">
+            <span style="font-family: monospace; font-size: 11px; color: var(--gray-9); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${link.link}</span>
+          </div>
+        `;
 
           grid.appendChild(card);
         });
-
-        content.innerHTML = "";
-        content.appendChild(grid);
       }
 
-      loadQuicklinks();
+      // Search functionality
+      const searchInput = document.getElementById("searchInput");
+      searchInput.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase();
+        const filtered = quicklinksData.filter(
+          (link) =>
+            link.name.toLowerCase().includes(query) ||
+            link.description.toLowerCase().includes(query) ||
+            link.link.toLowerCase().includes(query),
+        );
+        renderQuicklinks(filtered);
+      });
+
+      // Initial render
+      renderQuicklinks(quicklinksData);
     </script>
   </body>
 </html>

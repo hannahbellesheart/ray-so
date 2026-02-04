@@ -5,181 +5,184 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Themes - Ray.so</title>
     <link rel="stylesheet" href="style.css" />
-    <style>
-      .themes-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 1rem;
-        padding: 1rem;
-        max-width: 1400px;
-        margin: 0 auto;
-      }
-      .theme-card {
-        background: var(--gray-2);
-        border: 1px solid var(--gray-4);
-        border-radius: 8px;
-        padding: 1.5rem;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-      .theme-card:hover {
-        border-color: var(--gray-6);
-        background: var(--gray-3);
-      }
-      .theme-title {
-        font-size: 1.125rem;
-        font-weight: 600;
-        color: var(--gray-12);
-        margin-bottom: 0.5rem;
-      }
-      .theme-author {
-        font-size: 0.875rem;
-        color: var(--gray-11);
-        line-height: 1.5;
-      }
-      .theme-preview {
-        margin-top: 0.75rem;
-        height: 60px;
-        border-radius: 4px;
-        display: flex;
-        gap: 0.25rem;
-        padding: 0.5rem;
-      }
-      .theme-color {
-        flex: 1;
-        border-radius: 4px;
-      }
-      .loading {
-        text-align: center;
-        padding: 3rem;
-        color: var(--gray-11);
-      }
-    </style>
   </head>
   <body>
+    <!-- Navigation -->
     <nav class="navigation">
       <div class="nav-content">
         <div class="nav-left">
           <div class="nav-dropdown">
             <button class="nav-trigger" id="navTrigger">
-              <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <rect x="4" y="5" width="16" height="3" rx="1.5" fill="currentColor" />
-                <rect x="4" y="10.5" width="16" height="3" rx="1.5" fill="currentColor" />
-                <rect x="4" y="16" width="8" height="3" rx="1.5" fill="currentColor" />
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                <rect x="3" y="14" width="7" height="7" rx="1"></rect>
               </svg>
               <span>Themes</span>
             </button>
             <div class="nav-menu" id="navMenu">
               <a href="index.html" class="nav-menu-item">
-                <div class="nav-menu-icon">🖼️</div>
+                <div class="nav-menu-icon">📸</div>
                 <div class="nav-menu-text">
-                  <span class="nav-menu-title">Code Images</span>
-                  <span class="nav-menu-desc">Create beautiful images of your code</span>
+                  <div class="nav-menu-title">Code Screenshot</div>
+                  <div class="nav-menu-desc">Create beautiful code screenshots</div>
                 </div>
               </a>
               <a href="icon.html" class="nav-menu-item">
                 <div class="nav-menu-icon">🎨</div>
                 <div class="nav-menu-text">
-                  <span class="nav-menu-title">Icon Maker</span>
-                  <span class="nav-menu-desc">Create beautiful icons</span>
+                  <div class="nav-menu-title">Icon Maker</div>
+                  <div class="nav-menu-desc">Generate gradient icons</div>
                 </div>
               </a>
               <a href="prompts.html" class="nav-menu-item">
                 <div class="nav-menu-icon">💬</div>
                 <div class="nav-menu-text">
-                  <span class="nav-menu-title">Prompts</span>
-                  <span class="nav-menu-desc">Explore AI Prompts for Raycast</span>
+                  <div class="nav-menu-title">AI Prompts</div>
+                  <div class="nav-menu-desc">Browse AI prompt templates</div>
                 </div>
               </a>
               <a href="presets.html" class="nav-menu-item">
                 <div class="nav-menu-icon">⚙️</div>
                 <div class="nav-menu-text">
-                  <span class="nav-menu-title">Presets</span>
-                  <span class="nav-menu-desc">Explore AI Presets for Raycast</span>
+                  <div class="nav-menu-title">AI Presets</div>
+                  <div class="nav-menu-desc">AI configuration presets</div>
                 </div>
               </a>
               <a href="quicklinks.html" class="nav-menu-item">
                 <div class="nav-menu-icon">🔗</div>
                 <div class="nav-menu-text">
-                  <span class="nav-menu-title">Quicklinks</span>
-                  <span class="nav-menu-desc">Explore Raycast Quicklinks</span>
+                  <div class="nav-menu-title">Quicklinks</div>
+                  <div class="nav-menu-desc">Quick access links</div>
                 </div>
               </a>
               <a href="snippets.html" class="nav-menu-item">
-                <div class="nav-menu-icon">📝</div>
+                <div class="nav-menu-icon">✂️</div>
                 <div class="nav-menu-text">
-                  <span class="nav-menu-title">Snippets</span>
-                  <span class="nav-menu-desc">Browse and import Raycast Snippets</span>
+                  <div class="nav-menu-title">Snippets</div>
+                  <div class="nav-menu-desc">Text snippets & symbols</div>
                 </div>
               </a>
               <a href="themes.html" class="nav-menu-item active">
-                <div class="nav-menu-icon">🎭</div>
+                <div class="nav-menu-icon">🎨</div>
                 <div class="nav-menu-text">
-                  <span class="nav-menu-title">Themes</span>
-                  <span class="nav-menu-desc">Browse and import Raycast Themes</span>
+                  <div class="nav-menu-title">Themes</div>
+                  <div class="nav-menu-desc">Color themes</div>
                 </div>
               </a>
             </div>
           </div>
-          <span class="nav-by">by</span>
-          <a href="https://raycast.com" target="_blank" class="nav-raycast">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path
-                d="M10 0L12.2451 7.75492L20 10L12.2451 12.2451L10 20L7.75492 12.2451L0 10L7.75492 7.75492L10 0Z"
-                fill="#FF6363"
-              />
-            </svg>
-            <span>Raycast</span>
-          </a>
         </div>
+        <div class="nav-by">by <a href="https://raycast.com" class="nav-raycast" target="_blank">Raycast</a></div>
       </div>
     </nav>
 
-    <main class="main-container">
-      <div id="content">
-        <div class="loading">Loading themes...</div>
+    <!-- Main Content -->
+    <div class="main-container">
+      <div class="listing-container">
+        <div class="listing-header">
+          <h1 class="listing-title">Color Themes</h1>
+          <p class="listing-description">Browse color themes and palettes</p>
+          <div class="mt-4">
+            <input type="text" id="searchInput" placeholder="Search themes..." style="width: 100%; max-width: 400px" />
+          </div>
+        </div>
+        <div class="listing-grid" id="themesGrid">
+          <!-- Cards will be inserted here by JavaScript -->
+        </div>
       </div>
-    </main>
+    </div>
 
-    <script src="nav.js"></script>
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Color copied!</div>
+
     <script src="themes-data.js"></script>
     <script>
-      function loadThemes() {
-        const content = document.getElementById("content");
-        const grid = document.createElement("div");
-        grid.className = "themes-grid";
+      // Navigation dropdown toggle
+      const navTrigger = document.getElementById("navTrigger");
+      const navMenu = document.getElementById("navMenu");
 
-        themesData.forEach((theme) => {
+      navTrigger.addEventListener("click", () => {
+        navMenu.classList.toggle("show");
+        navTrigger.classList.toggle("active");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!navTrigger.contains(e.target) && !navMenu.contains(e.target)) {
+          navMenu.classList.remove("show");
+          navTrigger.classList.remove("active");
+        }
+      });
+
+      // Toast notification
+      const toast = document.getElementById("toast");
+      function showToast(message = "Color copied!") {
+        toast.textContent = message;
+        toast.classList.add("show");
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 2000);
+      }
+
+      // Copy to clipboard
+      function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast();
+        });
+      }
+
+      // Render themes
+      function renderThemes(themes) {
+        const grid = document.getElementById("themesGrid");
+        grid.innerHTML = "";
+
+        themes.forEach((theme) => {
           const card = document.createElement("div");
-          card.className = "theme-card";
-          card.onclick = () => {
-            alert(`Theme: ${theme.name}\\nThis is a demo theme. Visit ray.so/themes for the full collection.`);
-          };
+          card.className = "card";
 
-          const preview = `
-            <div class="theme-preview">
-              <div class="theme-color" style="background: ${theme.colors.background};"></div>
-              <div class="theme-color" style="background: ${theme.colors.blue};"></div>
-              <div class="theme-color" style="background: ${theme.colors.purple};"></div>
-              <div class="theme-color" style="background: ${theme.colors.green};"></div>
-              <div class="theme-color" style="background: ${theme.colors.red};"></div>
-            </div>
-          `;
+          const colors = theme.colors;
+          const colorKeys = Object.keys(colors);
+
+          let paletteHTML = '<div class="color-palette">';
+          colorKeys.forEach((key) => {
+            paletteHTML += `<div class="color-swatch" 
+                              style="background-color: ${colors[key]};" 
+                              onclick="event.stopPropagation(); copyToClipboard('${colors[key]}')"
+                              title="${key}: ${colors[key]}"></div>`;
+          });
+          paletteHTML += "</div>";
 
           card.innerHTML = `
-            <div class="theme-title">${theme.name}</div>
-            <div class="theme-author">by ${theme.author}</div>
-            ${preview}
-          `;
+          <div class="card-header">
+            <h3 class="card-title">${theme.name}</h3>
+          </div>
+          <div class="card-meta">
+            <span class="card-badge">${theme.appearance}</span>
+            <span>by ${theme.author}</span>
+          </div>
+          ${paletteHTML}
+        `;
 
           grid.appendChild(card);
         });
-
-        content.innerHTML = "";
-        content.appendChild(grid);
       }
 
-      loadThemes();
+      // Search functionality
+      const searchInput = document.getElementById("searchInput");
+      searchInput.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase();
+        const filtered = themesData.filter(
+          (theme) =>
+            theme.name.toLowerCase().includes(query) ||
+            theme.author.toLowerCase().includes(query) ||
+            theme.appearance.toLowerCase().includes(query),
+        );
+        renderThemes(filtered);
+      });
+
+      // Initial render
+      renderThemes(themesData);
     </script>
   </body>
 </html>
