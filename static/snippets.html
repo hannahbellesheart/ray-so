@@ -136,51 +136,54 @@
     </main>
 
     <script src="nav.js"></script>
+    <script src="snippets-data.js"></script>
     <script>
-      async function loadSnippets() {
-        try {
-          const response = await fetch("/api/snippets");
-          const categories = await response.json();
+      function loadSnippets() {
+        const content = document.getElementById("content");
+        content.innerHTML = "";
 
-          const content = document.getElementById("content");
-          content.innerHTML = "";
+        const section = document.createElement("div");
+        section.style.marginBottom = "2rem";
 
-          categories.forEach((category) => {
-            const section = document.createElement("div");
-            section.style.marginBottom = "2rem";
+        const title = document.createElement("h2");
+        title.textContent = "Text Snippets";
+        title.style.cssText =
+          "font-size: 1.5rem; color: var(--gray-12); margin: 2rem 1rem 1rem; max-width: 1400px; margin-left: auto; margin-right: auto;";
+        section.appendChild(title);
 
-            const title = document.createElement("h2");
-            title.textContent = category.name;
-            title.style.cssText =
-              "font-size: 1.5rem; color: var(--gray-12); margin: 2rem 1rem 1rem; max-width: 1400px; margin-left: auto; margin-right: auto;";
-            section.appendChild(title);
+        const grid = document.createElement("div");
+        grid.className = "snippets-grid";
 
-            const grid = document.createElement("div");
-            grid.className = "snippets-grid";
+        snippetsData.forEach((snippet) => {
+          const card = document.createElement("div");
+          card.className = "snippet-card";
+          card.onclick = () => {
+            // Copy to clipboard
+            navigator.clipboard
+              .writeText(snippet.text)
+              .then(() => {
+                const toast = document.createElement("div");
+                toast.textContent = "✓ Copied to clipboard!";
+                toast.style.cssText =
+                  "position: fixed; top: 20px; right: 20px; background: var(--gray-12); color: var(--gray-1); padding: 1rem 1.5rem; border-radius: 8px; z-index: 1000; font-size: 0.875rem; animation: fadeInOut 2s;";
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 2000);
+              })
+              .catch(() => {
+                alert(`Snippet: ${snippet.name}\n\n${snippet.text}`);
+              });
+          };
 
-            category.snippets.forEach((snippet) => {
-              const card = document.createElement("div");
-              card.className = "snippet-card";
-              card.onclick = () => {
-                const url = `raycast://snippet?name=${encodeURIComponent(snippet.name)}&text=${encodeURIComponent(snippet.text)}`;
-                window.location.href = url;
-              };
+          card.innerHTML = `
+            <div class="snippet-title">${snippet.name}</div>
+            <div class="snippet-text">${snippet.text.length > 100 ? snippet.text.substring(0, 100) + "..." : snippet.text}</div>
+          `;
 
-              card.innerHTML = `
-                <div class="snippet-title">${snippet.name}</div>
-                <div class="snippet-text">${snippet.text}</div>
-              `;
+          grid.appendChild(card);
+        });
 
-              grid.appendChild(card);
-            });
-
-            section.appendChild(grid);
-            content.appendChild(section);
-          });
-        } catch (error) {
-          document.getElementById("content").innerHTML =
-            '<div class="loading">Error loading snippets. Please make sure the Next.js dev server is running.</div>';
-        }
+        section.appendChild(grid);
+        content.appendChild(section);
       }
 
       loadSnippets();

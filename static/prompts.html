@@ -134,51 +134,70 @@
     </main>
 
     <script src="nav.js"></script>
+    <script src="prompts-data.js"></script>
     <script>
-      async function loadPrompts() {
-        try {
-          const response = await fetch("/api/prompts");
-          const categories = await response.json();
+      function loadPrompts() {
+        const content = document.getElementById("content");
+        content.innerHTML = "";
 
-          const content = document.getElementById("content");
-          content.innerHTML = "";
+        const section = document.createElement("div");
+        section.style.marginBottom = "2rem";
 
-          categories.forEach((category) => {
-            const section = document.createElement("div");
-            section.style.marginBottom = "2rem";
+        const title = document.createElement("h2");
+        title.textContent = "AI Prompts";
+        title.style.cssText =
+          "font-size: 1.5rem; color: var(--gray-12); margin: 2rem 1rem 1rem; max-width: 1400px; margin-left: auto; margin-right: auto;";
+        section.appendChild(title);
 
-            const title = document.createElement("h2");
-            title.textContent = category.name;
-            title.style.cssText =
-              "font-size: 1.5rem; color: var(--gray-12); margin: 2rem 1rem 1rem; max-width: 1400px; margin-left: auto; margin-right: auto;";
-            section.appendChild(title);
+        const grid = document.createElement("div");
+        grid.className = "prompts-grid";
 
-            const grid = document.createElement("div");
-            grid.className = "prompts-grid";
+        promptsData.forEach((prompt) => {
+          const card = document.createElement("div");
+          card.className = "prompt-card";
+          card.onclick = () => {
+            const modal = document.createElement("div");
+            modal.style.cssText =
+              "position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 2rem;";
+            modal.onclick = () => modal.remove();
 
-            category.prompts.forEach((prompt) => {
-              const card = document.createElement("div");
-              card.className = "prompt-card";
-              card.onclick = () => {
-                const url = `raycast://prompt?title=${encodeURIComponent(prompt.title)}&prompt=${encodeURIComponent(prompt.prompt)}`;
-                window.location.href = url;
-              };
+            const modalContent = document.createElement("div");
+            modalContent.style.cssText =
+              "background: var(--gray-2); border: 1px solid var(--gray-6); border-radius: 12px; padding: 2rem; max-width: 600px; max-height: 80vh; overflow-y: auto;";
+            modalContent.onclick = (e) => e.stopPropagation();
 
-              card.innerHTML = `
-                <div class="prompt-title">${prompt.title}</div>
-                <div class="prompt-preview">${prompt.prompt.substring(0, 150)}...</div>
-              `;
+            const modalTitle = document.createElement("h3");
+            modalTitle.textContent = prompt.title;
+            modalTitle.style.cssText = "color: var(--gray-12); margin-bottom: 1rem; font-size: 1.5rem;";
 
-              grid.appendChild(card);
-            });
+            const promptText = document.createElement("pre");
+            promptText.textContent = prompt.prompt;
+            promptText.style.cssText =
+              "color: var(--gray-11); white-space: pre-wrap; font-family: monospace; background: var(--gray-3); padding: 1rem; border-radius: 6px; line-height: 1.5;";
 
-            section.appendChild(grid);
-            content.appendChild(section);
-          });
-        } catch (error) {
-          document.getElementById("content").innerHTML =
-            '<div class="loading">Error loading prompts. Please make sure the Next.js dev server is running.</div>';
-        }
+            const closeBtn = document.createElement("button");
+            closeBtn.textContent = "Close";
+            closeBtn.style.cssText =
+              "margin-top: 1rem; padding: 0.5rem 1rem; background: var(--gray-12); color: var(--gray-1); border: none; border-radius: 6px; cursor: pointer; font-size: 0.875rem;";
+            closeBtn.onclick = () => modal.remove();
+
+            modalContent.appendChild(modalTitle);
+            modalContent.appendChild(promptText);
+            modalContent.appendChild(closeBtn);
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+          };
+
+          card.innerHTML = `
+            <div class="prompt-title">${prompt.icon} ${prompt.title}</div>
+            <div class="prompt-preview">${prompt.prompt.substring(0, 150)}...</div>
+          `;
+
+          grid.appendChild(card);
+        });
+
+        section.appendChild(grid);
+        content.appendChild(section);
       }
 
       loadPrompts();
