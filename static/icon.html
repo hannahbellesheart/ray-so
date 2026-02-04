@@ -86,25 +86,173 @@
     </nav>
 
     <main class="main-container">
-      <div class="page-content">
-        <div class="page-header">
-          <h1 class="page-title">Icon Maker</h1>
-          <p class="page-description">Create beautiful icons for your next project, app, or Raycast extension.</p>
+      <div class="app">
+        <div class="content-area">
+          <div class="frame-container">
+            <div class="outer-frame">
+              <div
+                id="iconFrame"
+                class="code-frame"
+                style="padding: 4rem; display: flex; align-items: center; justify-content: center"
+              >
+                <div
+                  id="iconCanvas"
+                  style="
+                    width: 512px;
+                    height: 512px;
+                    border-radius: 128px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 256px;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    position: relative;
+                  "
+                >
+                  <div id="iconContent" style="position: relative; z-index: 1">🚀</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="feature-notice">
-          <div class="notice-icon">🎨</div>
-          <div class="notice-content">
-            <h3>Icon Maker</h3>
-            <p>
-              This is a simplified static version. Visit the full site for the complete Icon Maker experience with
-              gradient customization, emoji selection, and export features.
-            </p>
-            <a href="https://ray.so/icon" target="_blank" class="btn btn-primary">Visit Full Version</a>
+
+        <div class="controls">
+          <div class="control-group">
+            <label class="control-label">Icon/Emoji</label>
+            <input
+              type="text"
+              id="iconInput"
+              class="control-input"
+              value="🚀"
+              maxlength="2"
+              style="font-size: 2rem; text-align: center"
+            />
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Background Style</label>
+            <select id="gradientSelect" class="control-select">
+              <option value="1">Purple Dream</option>
+              <option value="2">Ocean Breeze</option>
+              <option value="3">Sunset Glow</option>
+              <option value="4">Forest Green</option>
+              <option value="5">Fire Red</option>
+              <option value="6">Solid Color</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Size</label>
+            <select id="sizeSelect" class="control-select">
+              <option value="256">256px</option>
+              <option value="512" selected>512px</option>
+              <option value="1024">1024px</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Border Radius</label>
+            <select id="radiusSelect" class="control-select">
+              <option value="0">Square</option>
+              <option value="0.125">Slightly Rounded</option>
+              <option value="0.25" selected>Rounded</option>
+              <option value="0.5">Very Rounded</option>
+            </select>
+          </div>
+
+          <div class="control-buttons">
+            <button id="exportBtn" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M14 10V12.6667C14 13.0203 13.8595 13.3594 13.6095 13.6095C13.3594 13.8595 13.0203 14 12.6667 14H3.33333C2.97971 14 2.64057 13.8595 2.39052 13.6095C2.14048 13.3594 2 13.0203 2 12.6667V10"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M4.66666 6.66667L8 10L11.3333 6.66667"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M8 10V2"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              Export Icon
+            </button>
           </div>
         </div>
       </div>
     </main>
 
     <script src="nav.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+      const iconInput = document.getElementById("iconInput");
+      const iconContent = document.getElementById("iconContent");
+      const iconCanvas = document.getElementById("iconCanvas");
+      const gradientSelect = document.getElementById("gradientSelect");
+      const sizeSelect = document.getElementById("sizeSelect");
+      const radiusSelect = document.getElementById("radiusSelect");
+      const exportBtn = document.getElementById("exportBtn");
+
+      const gradients = {
+        1: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        2: "linear-gradient(135deg, #36d1dc 0%, #5b86e5 100%)",
+        3: "linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%)",
+        4: "linear-gradient(135deg, #99f2c8 0%, #1f4037 100%)",
+        5: "linear-gradient(135deg, #f953c6 0%, #b91d73 100%)",
+        6: "#667eea",
+      };
+
+      function updateIcon() {
+        iconContent.textContent = iconInput.value || "🚀";
+        iconCanvas.style.background = gradients[gradientSelect.value];
+        const size = parseInt(sizeSelect.value);
+        iconCanvas.style.width = size + "px";
+        iconCanvas.style.height = size + "px";
+        iconCanvas.style.fontSize = size / 2 + "px";
+        const radius = parseFloat(radiusSelect.value);
+        iconCanvas.style.borderRadius = size * radius + "px";
+      }
+
+      iconInput.addEventListener("input", updateIcon);
+      gradientSelect.addEventListener("change", updateIcon);
+      sizeSelect.addEventListener("change", updateIcon);
+      radiusSelect.addEventListener("change", updateIcon);
+
+      exportBtn.addEventListener("click", async () => {
+        const scale = 2;
+        try {
+          const canvas = await html2canvas(iconCanvas, {
+            backgroundColor: null,
+            scale: scale,
+            width: iconCanvas.offsetWidth,
+            height: iconCanvas.offsetHeight,
+          });
+
+          canvas.toBlob((blob) => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "icon.png";
+            a.click();
+            URL.revokeObjectURL(url);
+          });
+        } catch (error) {
+          console.error("Export failed:", error);
+          alert("Failed to export icon. Please try again.");
+        }
+      });
+
+      updateIcon();
+    </script>
   </body>
 </html>
